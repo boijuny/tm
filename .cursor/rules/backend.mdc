@@ -1,0 +1,145 @@
+---
+description: 
+globs: 
+---
+---
+description: Python backend development guidelines for the music collaboration platform (Core Version)
+globs: ["src/**/*.py", "tests/**/*.py"]
+---
+
+# Backend Development Guidelines
+
+## Project Structure
+- **Pattern**: `src/**/*.py`
+  - Use FastAPI for REST API development
+  - Follow Python package structure
+  - Implement dependency injection
+  - Use type hints throughout
+  - Document with docstrings
+
+## API Structure
+- **Pattern**: `src/api/**/*.py`
+  - Implement RESTful endpoints:
+    ```python
+    # Example structure
+    src/api/
+      ├── auth/          # Authentication & authorization
+      ├── profiles/      # User profiles & preferences
+      ├── discover/      # Basic discovery & matching
+      ├── media/         # Audio file handling
+      └── messaging/     # User communication
+    ```
+  - Use Pydantic models for validation
+  - Implement OpenAPI documentation
+  - Use async/await for performance
+  - Handle CORS and middleware
+
+## Database Schema
+- **Pattern**: `src/models/**/*.py`
+  - Use SQLAlchemy for ORM
+  - Core models:
+    ```python
+    # Example models
+    src/models/
+      ├── user.py        # Basic profile, preferences
+      ├── media.py       # Audio files, basic metadata
+      ├── matching.py    # Simple likes/matches
+      └── message.py     # Chat history
+    ```
+  - Use Alembic for migrations
+  - Implement proper indexing
+  - Use SQLAlchemy async
+
+## Audio Processing
+- **Pattern**: `src/services/audio/**/*.py`
+  - Use pydub for basic audio handling
+  - Basic format validation
+  - Simple metadata extraction
+  - Generate audio previews
+  - Handle file optimization
+  ```python
+  # Example service structure
+  async def process_audio(file: UploadFile):
+      # Validate format (mp3, wav, ogg)
+      # Extract basic metadata (duration, size)
+      # Generate 30s preview
+      # Optimize file size
+  ```
+
+## Discovery Service
+- **Pattern**: `src/services/discover/**/*.py`
+  - Implement basic filtering
+  - Handle user preferences
+  - Simple matching logic
+  - Manage user interactions
+  - Cache popular profiles
+
+## Authentication
+- **Pattern**: `src/services/auth/**/*.py`
+  - Use JWT with Python-JOSE
+  - Implement OAuth2 with FastAPI
+  - Use Passlib for hashing
+  - Handle session management
+  - Rate limit with Redis
+
+## Messaging Service
+- **Pattern**: `src/services/messaging/**/*.py`
+  - Use WebSockets with FastAPI
+  - Implement Redis pub/sub
+  - Handle message persistence
+  - Support audio file sharing
+  - Basic message queuing
+
+## Testing
+- **Pattern**: `tests/**/*.py`
+  - Use pytest for testing
+  - Implement async tests
+  - Use pytest-cov for coverage
+  - Mock external services
+  - Test file handling
+
+## Code Quality
+- Use Black for formatting
+- Implement mypy type checking
+- Use isort for imports
+- Run flake8 for linting
+- Use bandit for security
+
+## Performance
+- Implement basic caching
+- Use connection pooling
+- Handle background tasks
+- Monitor API performance
+- Optimize file uploads
+
+## Security
+- Implement input validation
+- Use SQL parameterization
+- Sanitize file uploads
+- Set rate limiting
+- Use secure headers
+
+## Dependencies
+```python
+# requirements.txt
+fastapi>=0.68.0
+uvicorn>=0.15.0
+sqlalchemy>=1.4.0
+alembic>=1.7.0
+pydantic>=1.8.0
+python-jose>=3.3.0
+passlib>=1.7.4
+python-multipart>=0.0.5
+pydub>=0.25.1
+redis>=4.0.0
+pytest>=6.2.0
+black>=21.0
+mypy>=0.910
+```
+
+## Development Workflow
+- Use virtual environments
+- Follow Git branching model
+- Write clear commit messages
+- Document API changes
+- Update test coverage

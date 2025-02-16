@@ -1,0 +1,194 @@
+# Cursor Rules for Music Collaboration Platform
+
+## Code Style and Quality
+- **Pattern**: `**/*.{js,jsx,ts,tsx}`
+  - Enforce consistent code formatting
+  - Run linter on save
+  - Use 2 spaces for indentation
+  - Trim trailing whitespace
+  - Insert final newline
+
+## Testing Requirements
+- **Pattern**: `src/**/*.{js,jsx,ts,tsx}`
+  - Write tests for new features in `__tests__` directory
+  - Follow test-driven development practices
+  - Ensure adequate test coverage
+
+## Media Files
+- **Pattern**: `**/*.{mp3,wav,ogg}`
+  - Optimize audio files
+  - Keep file size under 10MB
+  - Implement proper error handling for media operations
+
+## API Development
+- **Pattern**: `src/api/**/*.{js,ts}`
+  - Implement proper authentication
+  - Set up rate limiting
+  - Handle errors gracefully
+  - Document API endpoints
+
+## Database Management
+- **Pattern**: `src/db/schema/**/*.{js,ts}`
+  - Create migration files for schema changes
+  - Document database modifications
+  - Follow database naming conventions
+
+## Frontend Components
+- **Pattern**: `src/components/**/*.{jsx,tsx}`
+  - Follow atomic design principles
+  - Use PropTypes/TypeScript interfaces
+  - Implement responsive design
+  - Maintain component reusability
+
+## State Management
+- **Pattern**: `src/store/**/*.{js,ts}`
+  - Use immutable state changes
+  - Type all actions and reducers
+  - Document state structure
+  - Implement proper error handling
+
+## Real-time Features
+- **Pattern**: `src/components/rtc/**/*.{js,jsx,ts,tsx}`
+  - Clean up WebRTC connections
+  - Implement fallback mechanisms
+  - Handle connection errors
+  - Optimize for performance
+
+## Security
+- **Pattern**: `**/*.env*`
+  - Use environment variables for sensitive data
+  - Never commit API keys or secrets
+  - Implement proper security measures
+  - Follow security best practices
+
+## Global Guidelines
+- Maximum file size: 50MB
+- Use consistent naming conventions
+- Write clear documentation
+- Follow DRY principles
+- Optimize for performance
+
+{
+    "version": 1,
+    "rules": [
+        {
+            "name": "Frontend Development",
+            "pattern": "src/{components,pages,styles,features}/**/*.{tsx,jsx,css,scss}",
+            "rule_file": ".cursor/rules/frontend.mdc",
+            "on_save": {
+                "autoformat": true,
+                "lint": true,
+                "typecheck": true
+            }
+        },
+        {
+            "name": "Frontend Tests",
+            "pattern": "src/**/__tests__/**/*.{ts,tsx}",
+            "rule_file": ".cursor/rules/frontend.mdc",
+            "on_save": {
+                "autoformat": true,
+                "lint": true,
+                "run_tests": true
+            }
+        },
+        {
+            "name": "Backend Development",
+            "pattern": "src/**/*.py",
+            "rule_file": ".cursor/rules/backend.mdc",
+            "on_save": {
+                "autoformat": true,
+                "lint": true,
+                "typecheck": true
+            }
+        },
+        {
+            "name": "Backend Tests",
+            "pattern": "tests/**/*.py",
+            "rule_file": ".cursor/rules/backend.mdc",
+            "on_save": {
+                "autoformat": true,
+                "lint": true,
+                "run_tests": true
+            }
+        },
+        {
+            "name": "Infrastructure",
+            "pattern": "{infrastructure,terraform}/**/*.{tf,yml,yaml}",
+            "rule_file": ".cursor/rules/infrastructure.mdc",
+            "on_save": {
+                "autoformat": true,
+                "lint": true,
+                "validate": true
+            }
+        },
+        {
+            "name": "Docker Configuration",
+            "pattern": "docker/**/*.{yml,yaml,dockerfile}",
+            "rule_file": ".cursor/rules/infrastructure.mdc",
+            "on_save": {
+                "autoformat": true,
+                "lint": true,
+                "validate": true
+            }
+        },
+        {
+            "name": "Database Migrations",
+            "pattern": "src/db/migrations/**/*.{py,sql}",
+            "rule_file": ".cursor/rules/backend.mdc",
+            "on_save": {
+                "autoformat": true,
+                "lint": true,
+                "validate": true
+            }
+        },
+        {
+            "name": "Audio Assets",
+            "pattern": "public/audio/**/*.{mp3,wav,ogg}",
+            "max_file_size_mb": 10,
+            "on_save": {
+                "validate": true,
+                "optimize": true
+            }
+        },
+        {
+            "name": "Environment Files",
+            "pattern": "**/*.env*",
+            "on_save": {
+                "message": "⚠️ Ensure no sensitive data is committed. Use environment variables for secrets."
+            }
+        },
+        {
+            "name": "Documentation",
+            "pattern": "**/*.{md,mdx}",
+            "on_save": {
+                "autoformat": true,
+                "lint": true,
+                "spellcheck": true
+            }
+        }
+    ],
+    "global_rules": {
+        "max_file_size_mb": 50,
+        "indent_style": "space",
+        "indent_size": 2,
+        "end_of_line": "lf",
+        "charset": "utf-8",
+        "trim_trailing_whitespace": true,
+        "insert_final_newline": true,
+        "on_save": {
+            "remove_unused_imports": true,
+            "organize_imports": true
+        }
+    },
+    "ignore_patterns": [
+        "node_modules/**",
+        "**/*.pyc",
+        "**/__pycache__/**",
+        ".git/**",
+        "dist/**",
+        "build/**",
+        ".next/**",
+        "coverage/**",
+        ".terraform/**"
+    ]
+}

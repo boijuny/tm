@@ -1,0 +1,156 @@
+---
+description: 
+globs: 
+---
+ ---
+description: Frontend development guidelines for the music collaboration platform (Core Version)
+globs: ["src/**/*.{tsx,jsx,css,scss}", "public/**/*"]
+---
+
+# Frontend Development Guidelines
+
+## Project Structure
+- **Pattern**: `src/**/*.{tsx,jsx}`
+  - Use Next.js for frontend development
+  - Implement TypeScript throughout
+  - Follow atomic design principles
+  - Use module CSS/SCSS
+  - Document components with Storybook
+
+## Page Structure
+- **Pattern**: `src/pages/**/*.{tsx,jsx}`
+  - Implement core pages:
+    ```typescript
+    # Example structure
+    src/pages/
+      ├── auth/           # Login, Register
+      ├── profile/        # Profile creation & edit
+      ├── discover/       # Swipe & match interface
+      ├── messages/       # Chat & audio sharing
+      └── settings/       # User preferences
+    ```
+  - Use SSR where appropriate
+  - Implement error boundaries
+  - Handle loading states
+  - Mobile-first layouts
+
+## Component Architecture
+- **Pattern**: `src/components/**/*.{tsx,jsx}`
+  - Atomic design structure:
+    ```typescript
+    src/components/
+      ├── atoms/         # Buttons, inputs, icons
+      ├── molecules/     # Cards, forms, audio player
+      ├── organisms/     # Swipe deck, chat window
+      ├── templates/     # Page layouts
+      └── features/      # Complex feature components
+    ```
+  - Use TypeScript interfaces
+  - Implement prop validation
+  - Follow composition pattern
+  - Write component documentation
+
+## Audio Components
+- **Pattern**: `src/components/audio/**/*.{tsx,jsx}`
+  - Custom audio player:
+    - Waveform visualization
+    - Basic playback controls
+    - Loading states
+    - Error handling
+  - Upload component:
+    - Drag and drop support
+    - Progress indication
+    - Format validation
+    - Size restrictions
+
+## Swipe Interface
+- **Pattern**: `src/features/swipe/**/*.{tsx,jsx}`
+  - Implement smooth animations
+  - Handle touch gestures
+  - Support keyboard navigation
+  - Manage card stack
+  - Handle edge cases
+
+## State Management
+- **Pattern**: `src/store/**/*.{ts,tsx}`
+  - Use React Context for global state
+  - Implement Redux Toolkit for complex state
+  - Handle audio playback state
+  - Manage user session
+  - Cache API responses
+
+## Styling System
+- **Pattern**: `src/styles/**/*.{css,scss}`
+  - Design tokens:
+    ```scss
+    styles/
+      ├── tokens/        # Colors, typography, spacing
+      ├── mixins/        # Responsive, animations
+      ├── layouts/       # Grid systems, containers
+      └── themes/        # Light/dark modes
+    ```
+  - Use CSS modules
+  - Implement responsive design
+  - Support dark mode
+  - Follow BEM methodology
+
+## Real-time Features
+- **Pattern**: `src/features/realtime/**/*.{tsx,jsx}`
+  - WebSocket integration
+  - Message handling
+  - Typing indicators
+  - Online status
+  - Connection management
+
+## Testing
+- **Pattern**: `src/**/__tests__/**/*.{ts,tsx}`
+  - Jest for unit testing
+  - React Testing Library
+  - Cypress for E2E
+  - Storybook for visual testing
+  - Test accessibility
+
+## Performance
+- Implement code splitting
+- Use image optimization
+- Lazy load components
+- Cache API responses
+- Monitor bundle size
+
+## Accessibility
+- Follow WCAG 2.1
+- Support keyboard navigation
+- Implement ARIA labels
+- Test with screen readers
+- Handle reduced motion
+
+## Dependencies
+```json
+{
+  "dependencies": {
+    "next": "^12.0.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "@reduxjs/toolkit": "^1.6.0",
+    "socket.io-client": "^4.0.0",
+    "wavesurfer.js": "^5.0.0",
+    "framer-motion": "^4.0.0",
+    "styled-components": "^5.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.0",
+    "jest": "^27.0.0",
+    "@testing-library/react": "^12.0.0",
+    "cypress": "^8.0.0",
+    "@storybook/react": "^6.0.0",
+    "sass": "^1.45.0"
+  }
+}
+```
+
+## Development Workflow
+- Use feature branches
+- Write meaningful commits
+- Document component changes
+- Update Storybook
+- Maintain test coverage

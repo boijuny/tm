@@ -1,0 +1,6 @@
+setup.py
+music_collab.egg-info/PKG-INFO
+music_collab.egg-info/SOURCES.txt
+music_collab.egg-info/dependency_links.txt
+music_collab.egg-info/requires.txt
+music_collab.egg-info/top_level.txt

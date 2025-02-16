@@ -1,0 +1,53 @@
+platform :ios, '17.0'
+
+# Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+use_frameworks!
+inhibit_all_warnings!
+
+target 'MusicCollab' do
+  # Pods for MusicCollab
+  
+  # Networking
+  pod 'Alamofire', '~> 5.8.1'
+  
+  # Firebase
+  pod 'Firebase/Core', '~> 10.19.0'
+  pod 'Firebase/Auth', '~> 10.19.0'
+  pod 'Firebase/Analytics', '~> 10.19.0'
+  
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        # iOS deployment target
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '17.0'
+        
+        # Architecture settings
+        config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = ''
+        
+        # Module and linking settings
+        config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+        config.build_settings['ENABLE_BITCODE'] = 'NO'
+        config.build_settings['OTHER_LDFLAGS'] = '$(inherited) -ObjC'
+        config.build_settings['SWIFT_VERSION'] = '5.0'
+        
+        # Module compilation settings
+        config.build_settings['ALWAYS_SEARCH_USER_PATHS'] = 'NO'
+        config.build_settings['CLANG_ENABLE_MODULES'] = 'YES'
+        config.build_settings['DEFINES_MODULE'] = 'YES'
+        
+        # Additional iOS 17 specific settings
+        config.build_settings['DEAD_CODE_STRIPPING'] = 'YES'
+        config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'YES'
+        config.build_settings['SWIFT_TREAT_WARNINGS_AS_ERRORS'] = 'NO'
+        
+        # Fix for Xcode 15
+        if config.base_configuration_reference && config.base_configuration_reference.real_path
+          xcconfig_path = config.base_configuration_reference.real_path
+          xcconfig = File.read(xcconfig_path)
+          xcconfig_mod = xcconfig.gsub(/DT_TOOLCHAIN_DIR/, "TOOLCHAIN_DIR")
+          File.open(xcconfig_path, "w") { |file| file << xcconfig_mod }
+        end
+      end
+    end
+  end
+end 

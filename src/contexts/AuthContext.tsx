@@ -3,17 +3,19 @@ import {
   User,
   signInWithPopup,
   signOut as firebaseSignOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  AuthError
 } from 'firebase/auth';
-import { auth, googleProvider } from '../config/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { auth, googleProvider, db } from '../config/firebase';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
+  error: string | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -21,6 +23,7 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   signInWithGoogle: async () => {},
   signOut: async () => {},
+  error: null
 });
 
 export const useAuth = () => {
@@ -38,12 +41,13 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log('Auth state changed:', user ? user.email : 'No user');
       setUser(user);
       setLoading(false);
-      localStorage.setItem('auth', JSON.stringify({ user, loading: false }));
     });
 
     return () => unsubscribe();
@@ -51,32 +55,48 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signInWithGoogle = async () => {
     try {
+      setError(null);
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       
+      // Check if user document exists
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       
       if (!userDoc.exists()) {
+        // Create new user document
         await setDoc(doc(db, 'users', user.uid), {
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
           userType: null,
-          createdAt: new Date().toISOString(),
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp()
         });
+        console.log('Created new user document');
+      } else {
+        // Update last login
+        await setDoc(doc(db, 'users', user.uid), {
+          lastLogin: serverTimestamp()
+        }, { merge: true });
+        console.log('Updated user last login');
       }
     } catch (error) {
-      console.error('Erreur lors de la connexion avec Google:', error);
+      console.error('Sign in error:', error);
+      const authError = error as AuthError;
+      setError(authError.message || 'Une erreur est survenue lors de la connexion');
       throw error;
     }
   };
 
   const signOut = async () => {
     try {
+      setError(null);
       await firebaseSignOut(auth);
-      localStorage.removeItem('auth');
+      console.log('User signed out successfully');
     } catch (error) {
-      console.error('Erreur lors de la déconnexion:', error);
+      console.error('Sign out error:', error);
+      const authError = error as AuthError;
+      setError(authError.message || 'Une erreur est survenue lors de la déconnexion');
       throw error;
     }
   };
@@ -86,6 +106,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loading,
     signInWithGoogle,
     signOut,
+    error
   };
 
   return (

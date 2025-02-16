@@ -12,10 +12,35 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const googleProvider = new GoogleAuthProvider();
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+// Initialize Firebase
+let auth;
+let db;
+let storage;
+let googleProvider;
+let app;
 
+try {
+  console.log('Initializing Firebase with config:', {
+    ...firebaseConfig,
+    apiKey: '***' // Hide API key in logs
+  });
+  app = initializeApp(firebaseConfig);
+  console.log('Firebase initialized successfully');
+
+  // Initialize services
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app);
+
+  // Configure Google provider
+  googleProvider = new GoogleAuthProvider();
+  googleProvider.setCustomParameters({
+    prompt: 'select_account'
+  });
+} catch (error) {
+  console.error('Error initializing Firebase:', error);
+  throw error;
+}
+
+export { auth, db, storage, googleProvider };
 export default app; 

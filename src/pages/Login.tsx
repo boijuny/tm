@@ -1,18 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Login: React.FC = () => {
-  const { signInWithGoogle } = useAuth();
+  const { user, signInWithGoogle, error: authError } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // If user is already logged in, redirect to profile setup or home
+    if (user) {
+      navigate('/profile-setup');
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    if (authError) {
+      setError(authError);
+    }
+  }, [authError]);
 
   const handleGoogleSignIn = async () => {
     try {
+      setError(null);
       await signInWithGoogle();
-      navigate('/profile-setup');
+      // Navigation will be handled by the useEffect above
     } catch (error) {
       console.error('Erreur de connexion:', error);
+      setError('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
     }
   };
 
@@ -23,6 +39,20 @@ const Login: React.FC = () => {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/20 rounded-full filter blur-3xl translate-x-1/2 translate-y-1/2" />
 
       <div className="w-full max-w-md relative z-10">
+        {/* Error message */}
+        <AnimatePresence>
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6 text-center"
+            >
+              <p className="text-red-500">{error}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

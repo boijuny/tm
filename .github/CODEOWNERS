@@ -1,0 +1,46 @@
+# Global owners
+* @project-lead
+
+# Frontend code
+/src/components/ @frontend-team
+/src/pages/ @frontend-team
+/src/styles/ @frontend-team
+/src/features/ @frontend-team
+
+# Backend code
+/src/api/ @backend-team
+/src/db/ @backend-team
+/src/services/ @backend-team
+
+# Infrastructure
+/infrastructure/ @devops-team
+/terraform/ @devops-team
+/docker/ @devops-team
+
+# Audio processing
+/src/services/audio/ @audio-team
+/src/components/audio/ @audio-team @frontend-team
+
+# Testing
+/tests/ @qa-team
+/cypress/ @qa-team
+/src/**/__tests__/ @qa-team
+
+# Documentation
+/docs/ @tech-writers
+*.md @tech-writers
+
+# Security-sensitive files
+/src/services/auth/ @security-team
+/infrastructure/security/ @security-team
+*.env.example @security-team
+
+# Dependencies
+package.json @frontend-team @security-team
+requirements.txt @backend-team @security-team
+yarn.lock @frontend-team @security-team
+poetry.lock @backend-team @security-team
+
+# CI/CD
+/.github/workflows/ @devops-team
+/.github/actions/ @devops-team 

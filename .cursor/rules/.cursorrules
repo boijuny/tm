@@ -72,13 +72,34 @@
     "version": 1,
     "rules": [
         {
+            "name": "Git Commit Messages",
+            "pattern": ".git/COMMIT_EDITMSG",
+            "on_save": {
+                "validate": true,
+                "message": "Commit message should follow conventional commits format: type(scope): description\nTypes: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, audio"
+            }
+        },
+        {
+            "name": "Git Branch Names",
+            "pattern": ".git/HEAD",
+            "on_save": {
+                "validate": true,
+                "message": "Branch names should follow pattern: type/description-in-kebab-case\nTypes: feature, bugfix, hotfix, release, docs"
+            }
+        },
+        {
             "name": "Frontend Development",
             "pattern": "src/{components,pages,styles,features}/**/*.{tsx,jsx,css,scss}",
             "rule_file": ".cursor/rules/frontend.mdc",
             "on_save": {
                 "autoformat": true,
                 "lint": true,
-                "typecheck": true
+                "typecheck": true,
+                "pre_commit": [
+                    "npm run lint",
+                    "npm run type-check",
+                    "npm run test:affected"
+                ]
             }
         },
         {
@@ -98,7 +119,13 @@
             "on_save": {
                 "autoformat": true,
                 "lint": true,
-                "typecheck": true
+                "typecheck": true,
+                "pre_commit": [
+                    "black .",
+                    "flake8",
+                    "mypy",
+                    "pytest tests/unit"
+                ]
             }
         },
         {
@@ -118,7 +145,11 @@
             "on_save": {
                 "autoformat": true,
                 "lint": true,
-                "validate": true
+                "validate": true,
+                "pre_commit": [
+                    "terraform fmt",
+                    "terraform validate"
+                ]
             }
         },
         {
@@ -128,7 +159,10 @@
             "on_save": {
                 "autoformat": true,
                 "lint": true,
-                "validate": true
+                "validate": true,
+                "pre_commit": [
+                    "hadolint Dockerfile"
+                ]
             }
         },
         {
@@ -138,7 +172,10 @@
             "on_save": {
                 "autoformat": true,
                 "lint": true,
-                "validate": true
+                "validate": true,
+                "pre_commit": [
+                    "sqlfluff lint"
+                ]
             }
         },
         {
@@ -154,7 +191,10 @@
             "name": "Environment Files",
             "pattern": "**/*.env*",
             "on_save": {
-                "message": "⚠️ Ensure no sensitive data is committed. Use environment variables for secrets."
+                "message": "⚠️ Ensure no sensitive data is committed. Use environment variables for secrets.",
+                "pre_commit": [
+                    "detect-secrets scan"
+                ]
             }
         },
         {
@@ -179,6 +219,24 @@
             "remove_unused_imports": true,
             "organize_imports": true
         }
+    },
+    "git_rules": {
+        "branch_name_pattern": "^(feature|bugfix|hotfix|release|docs)/[a-z0-9-]+$",
+        "commit_message_pattern": "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|audio)(\\([a-z-]+\\))?: .+$",
+        "max_commit_size": 500,
+        "protected_branches": ["main", "develop"],
+        "require_linear_history": true,
+        "require_pull_request": true,
+        "require_up_to_date_branch": true,
+        "block_force_push": true,
+        "pre_commit_hooks": [
+            "check-yaml",
+            "check-json",
+            "check-merge-conflict",
+            "detect-private-key",
+            "check-added-large-files",
+            "no-commit-to-branch --branch main --branch develop"
+        ]
     },
     "ignore_patterns": [
         "node_modules/**",

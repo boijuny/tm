@@ -49,33 +49,67 @@ A Tinder-like platform for connecting musicians and producers.
 │       ├── integration/       # Integration tests
 │       └── e2e/              # End-to-end tests
 │
-├── infrastructure/             # Infrastructure as Code
-├── docker/                    # Docker configurations
+├── infrastructure/             # Infrastructure configuration
 └── docs/                      # Documentation
 
 ```
 
-## Development Setup
+## Prerequisites
 
-### Prerequisites
+### System Requirements
 - Node.js 16+
 - Python 3.9+
-- Docker
-- AWS CLI
+- PostgreSQL 13+
+- Redis 6+
+
+### Database Setup
+1. Install PostgreSQL
+2. Create a database:
+```sql
+CREATE DATABASE music_collab;
+```
+
+### Cache Setup
+1. Install Redis
+2. Verify Redis is running:
+```bash
+redis-cli ping
+```
+
+## Development Setup
 
 ### Frontend Development
 ```bash
+# Install dependencies
 cd src/frontend
 npm install
+
+# Set up environment
+cp .env.example .env.local
+# Edit .env.local with your local settings
+
+# Start development server
 npm run dev
 ```
 
 ### Backend Development
 ```bash
+# Create and activate virtual environment
 cd src/backend
 python -m venv venv
 source venv/bin/activate  # or `venv\Scripts\activate` on Windows
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Set up environment
+cp .env.example .env
+# Edit .env with your local settings
+
+# Run database migrations
+alembic upgrade head
+
+# Start development server
 uvicorn main:app --reload
 ```
 

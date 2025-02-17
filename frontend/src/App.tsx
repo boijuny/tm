@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Login } from './components/features/auth/Login';
 import { ProfileSetup } from './components/features/auth/ProfileSetup';
-import { DiscoveryContainer } from './components/features/discovery/DiscoveryContainer';
 import { Home } from './components/features/home/Home';
+import DiscoverPage from './pages/DiscoverPage';
+import Navbar from './components/layout/Navbar';
 
 // Protected route wrapper
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -77,18 +78,21 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/login" element={<Login />} />
-          
-          {/* Protected routes */}
-          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-          <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
-          <Route path="/discover" element={<ProtectedRoute><DiscoveryContainer /></ProtectedRoute>} />
-          
-          {/* Fallback route */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+        <div className="pb-16"> {/* Add padding to account for fixed navbar */}
+          <Routes>
+            {/* Public routes */}
+            <Route path="/login" element={<Login />} />
+            
+            {/* Protected routes */}
+            <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
+            <Route path="/discover" element={<DiscoverPage />} />
+            
+            {/* Fallback route */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+          <Navbar />
+        </div>
       </Router>
     </AuthProvider>
   );

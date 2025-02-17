@@ -2,181 +2,93 @@
 description: Infrastructure and deployment guidelines for the music collaboration platform (Core Version)
 globs: ["infrastructure/**/*", "docker/**/*", "scripts/**/*", "terraform/**/*"]
 ---
+---
+description: Local development guidelines for the music collaboration platform (MVP Version)
+globs: ["scripts/**/*"]
+---
 
-# Infrastructure Guidelines
+# MVP Development Guidelines
 
-## Local Development
-- **Pattern**: `docker/**/*`
+## Local Development Setup
+- **Pattern**: `scripts/**/*`
   - Development environment:
     ```yaml
-    # Example docker-compose structure
-    services:
-      ├── frontend        # Next.js development
+    # Core components
+    components:
+      ├── frontend        # React/Vite development
       ├── backend         # FastAPI service
-      ├── postgres        # Main database
-      ├── redis          # Caching & real-time
-      └── minio          # Local S3-compatible storage
+      └── database        # Local PostgreSQL
     ```
-  - Hot reload configuration
-  - Volume mappings
-  - Network setup
-  - Local SSL
 
-## Cloud Infrastructure
-- **Pattern**: `terraform/**/*.tf`
-  - AWS resources:
-    ```hcl
-    # Core infrastructure
-    ├── networking/      # VPC, subnets, security groups
-    ├── compute/        # ECS cluster, EC2 instances
-    ├── storage/        # S3 buckets, RDS
-    ├── caching/        # ElastiCache
-    └── cdn/           # CloudFront
-    ```
-  - Infrastructure as Code
-  - Environment separation
-  - Security groups
-  - Cost optimization
-
-## Database Setup
-- **Pattern**: `infrastructure/db/**/*`
-  - PostgreSQL configuration:
-    - Connection pooling
-    - Backup strategy
-    - Monitoring setup
-    - Performance tuning
-  - Redis setup:
-    - Cache policies
-    - Persistence config
-    - Cluster setup
-    - Memory management
-
-## Media Storage
-- **Pattern**: `infrastructure/storage/**/*`
-  - S3 configuration:
-    ```yaml
-    buckets:
-      ├── audio-files     # Original uploads
-      ├── audio-previews  # Generated previews
-      ├── public-assets   # Static content
-      └── backups        # Database backups
-    ```
-  - Lifecycle policies
-  - CDN integration
-  - Access controls
-  - Backup strategy
-
-## Monitoring & Logging
-- **Pattern**: `infrastructure/monitoring/**/*`
-  - Monitoring stack:
-    ```yaml
-    services:
-      ├── prometheus     # Metrics collection
-      ├── grafana       # Visualization
-      ├── elasticsearch # Log aggregation
-      └── kibana       # Log visualization
-    ```
-  - Alert configuration
-  - Log retention
-  - Performance metrics
-  - Error tracking
-
-## CI/CD Pipeline
-- **Pattern**: `infrastructure/ci/**/*`
-  - Pipeline stages:
-    ```yaml
-    stages:
-      ├── test          # Unit & integration tests
-      ├── build         # Docker images
-      ├── security      # Security scans
-      ├── deploy        # Environment deployment
-      └── monitor      # Post-deployment checks
-    ```
-  - Automated testing
-  - Docker builds
-  - Environment promotion
-  - Rollback procedures
-
-## Security
-- **Pattern**: `infrastructure/security/**/*`
-  - Security measures:
-    - WAF configuration
-    - SSL/TLS setup
-    - IAM policies
-    - Network ACLs
-    - Security scanning
-
-## Scaling & Performance
-- **Pattern**: `infrastructure/scaling/**/*`
-  - Auto-scaling policies
-  - Load balancing
-  - Cache strategies
-  - Performance monitoring
-  - Resource optimization
-
-## Backup & Recovery
-- **Pattern**: `infrastructure/backup/**/*`
-  - Backup procedures:
-    ```yaml
-    backups:
-      ├── database       # Daily DB snapshots
-      ├── media-files    # S3 replication
-      ├── configurations # Infrastructure state
-      └── logs          # Log archives
-    ```
-  - Recovery testing
-  - Retention policies
-  - Disaster recovery
-  - Data integrity checks
-
-## Environment Management
-- **Pattern**: `infrastructure/env/**/*`
-  - Environment configs:
+## Environment Configuration
+- **Pattern**: `*/.env*`
+  - Environment setup:
     ```yaml
     environments:
-      ├── development   # Dev environment
-      ├── staging      # Pre-production
-      ├── production   # Live environment
-      └── disaster    # DR environment
+      ├── .env.development  # Local development
+      └── .env.test         # Testing environment
     ```
-  - Configuration management
-  - Secret handling
-  - Environment promotion
-  - Access control
+  - Keep secrets in .env files (not committed)
+  - Use .env.example as template
+
+## Database Setup
+- Local PostgreSQL:
+  - Simple connection setup
+  - Basic migrations
+  - Development data seeds
+  - Regular backups
+
+## Media Storage
+- Local file system storage:
+  - Organized directory structure:
+    ```yaml
+    storage:
+      ├── uploads/         # User uploads
+      ├── audio/          # Audio files
+      └── previews/       # Generated previews
+    ```
+  - Regular local backups
+  - File size limits
+
+## Development Workflow
+- Git workflow:
+  ```yaml
+  branches:
+    ├── main             # Stable version
+    ├── develop          # Development
+    └── feature/*        # Feature branches
+  ```
+- Code review process
+- Testing before merge
+
+## Testing Strategy
+- Unit tests
+- Integration tests
+- Manual testing checklist
+- Test data management
 
 ## Dependencies
 ```yaml
-# Core infrastructure tools
-terraform: ">=1.0.0"
-aws-cli: ">=2.0.0"
-docker: ">=20.10.0"
-docker-compose: ">=2.0.0"
-kubectl: ">=1.20.0"
-
-# Monitoring tools
-prometheus: ">=2.30.0"
-grafana: ">=8.0.0"
-elasticsearch: ">=7.15.0"
-kibana: ">=7.15.0"
-
-# Database tools
+# Core development tools
+python: ">=3.9"
+node: ">=16.0.0"
 postgresql: ">=13.0"
-redis: ">=6.2.0"
+
+# Package managers
+pip: "latest"
+npm: "latest"
 ```
 
-## Development Workflow
-- Use infrastructure as code
-- Follow GitOps principles
-- Document all changes
-- Test infrastructure
-- Monitor costs
+## Local Setup Checklist
+- Environment setup
+- Database initialization
+- Dependencies installation
+- Test suite running
+- Local server startup
 
-## Deployment Checklist
-- Security scan
-- Performance test
-- Backup verification
-- SSL certificate check
-- Resource scaling review
-- Cost assessment
-- Monitoring setup
-- Alert configuration
+## Security Basics
+- Secure authentication
+- Input validation
+- File upload validation
+- Basic rate limiting
+- CORS configuration

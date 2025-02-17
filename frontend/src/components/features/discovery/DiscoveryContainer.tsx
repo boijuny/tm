@@ -1,129 +1,190 @@
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { User } from '../../../types';
+import React, { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ProfileCard } from './ProfileCard';
+import { useProfiles } from '../../../hooks/useProfiles';
 
-// Mock data for testing
-const mockProfiles: User[] = [
-  {
-    id: '1',
-    displayName: 'John Doe',
-    userType: 'artist',
-    bio: 'Singer-songwriter with a passion for indie folk and electronic fusion. Looking to collaborate with producers who can bring a fresh perspective to my acoustic compositions.',
-    photoURL: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61',
-    media: [
-      {
-        id: '1',
-        title: 'Autumn Leaves',
-        url: '/media/autumn-leaves.mp3',
-        type: 'audio',
-        duration: 180
-      }
-    ],
-    genres: ['Indie Folk', 'Electronic', 'Acoustic'],
-    location: 'Paris, France',
-    likes: [],
-    passes: []
-  },
-  {
-    id: '2',
-    displayName: 'Sarah Smith',
-    userType: 'beatmaker',
-    bio: 'Electronic music producer specializing in lo-fi beats and ambient soundscapes. Always looking for vocalists and instrumentalists to collaborate with.',
-    photoURL: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
-    media: [
-      {
-        id: '2',
-        title: 'Midnight Dreams',
-        url: '/media/midnight-dreams.mp3',
-        type: 'audio',
-        duration: 210
-      }
-    ],
-    genres: ['Lo-Fi', 'Ambient', 'Electronic'],
-    location: 'London, UK',
-    likes: [],
-    passes: []
-  }
-];
+type SwipeDirection = 'left' | 'right' | 'up' | null;
 
 export const DiscoveryContainer: React.FC = () => {
-  const [profiles, setProfiles] = useState<User[]>([]);
+  const { profiles, loading, error } = useProfiles();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [direction, setDirection] = useState<SwipeDirection>(null);
 
-  useEffect(() => {
-    // TODO: Replace with actual API call
-    const fetchProfiles = async () => {
-      try {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setProfiles(mockProfiles);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching profiles:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchProfiles();
+  const handleLike = useCallback((id: string) => {
+    setDirection('right');
+    setCurrentIndex(prev => prev + 1);
   }, []);
 
-  const handleSwipe = (direction: 'left' | 'right') => {
-    // TODO: Implement API call to record the swipe
-    console.log(`Swiped ${direction} on profile:`, profiles[currentIndex]);
-    
-    if (currentIndex < profiles.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-    } else {
-      // No more profiles to show
-      setProfiles([]); // Clear the stack
-      // TODO: Implement refresh or "no more profiles" state
-    }
-  };
+  const handlePass = useCallback((id: string) => {
+    setDirection('left');
+    setCurrentIndex(prev => prev + 1);
+  }, []);
+
+  const handleSuperLike = useCallback((id: string) => {
+    setDirection('up');
+    setCurrentIndex(prev => prev + 1);
+  }, []);
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600">
-        <div className="text-white text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent mx-auto mb-4" />
-          <p className="text-lg font-medium">Finding potential matches...</p>
+      <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(0,0,0,0))]" />
+        </div>
+        <motion.div
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{ 
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="w-16 h-16 rounded-full border-4 border-purple-500 border-t-transparent"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(0,0,0,0))]" />
+        </div>
+        <div className="glass-card text-center max-w-lg mx-auto">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="text-red-500 mb-4"
+          >
+            <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </motion.div>
+          <h3 className="text-xl font-bold text-white mb-2">Oops! Something went wrong</h3>
+          <p className="text-gray-400">We're having trouble loading profiles. Please try again later.</p>
         </div>
       </div>
     );
   }
 
-  if (profiles.length === 0) {
+  if (!profiles || profiles.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600">
-        <div className="text-center text-white p-8 rounded-2xl backdrop-blur-lg bg-white/10">
-          <h2 className="text-2xl font-bold mb-4">No More Profiles</h2>
-          <p className="mb-6">We've run out of potential matches for now.</p>
-          <button
-            onClick={() => {
-              setProfiles(mockProfiles);
-              setCurrentIndex(0);
-            }}
-            className="px-6 py-3 rounded-full bg-white text-purple-600 font-medium hover:bg-opacity-90 transition-colors"
+      <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(0,0,0,0))]" />
+        </div>
+        <div className="glass-card text-center max-w-lg mx-auto">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="text-purple-500 mb-4"
           >
-            Refresh Profiles
-          </button>
+            <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </motion.div>
+          <h3 className="text-xl font-bold text-white mb-2">No More Profiles</h3>
+          <p className="text-gray-400">Check back later for new potential matches!</p>
         </div>
       </div>
     );
   }
+
+  const currentProfile = profiles[currentIndex];
+
+  if (!currentProfile) {
+    return null;
+  }
+
+  const variants = {
+    enter: (direction: 'left' | 'right' | 'up') => ({
+      x: direction === 'right' ? 1000 : direction === 'left' ? -1000 : 0,
+      y: direction === 'up' ? -1000 : 0,
+      opacity: 0,
+      scale: 0.8,
+      rotateZ: direction === 'right' ? 10 : direction === 'left' ? -10 : 0
+    }),
+    center: {
+      x: 0,
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      rotateZ: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 25
+      }
+    },
+    exit: (direction: 'left' | 'right' | 'up') => ({
+      x: direction === 'left' ? -1000 : direction === 'right' ? 1000 : 0,
+      y: direction === 'up' ? -1000 : 100,
+      opacity: 0,
+      scale: 0.8,
+      rotateZ: direction === 'right' ? 10 : direction === 'left' ? -10 : 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 25
+      }
+    })
+  };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 overflow-hidden">
-      <div className="absolute inset-0 flex items-center justify-center p-4">
-        <AnimatePresence>
-          {profiles.slice(currentIndex).map((profile, index) => (
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(0,0,0,0))]" />
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -100, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-3xl"
+        />
+      </div>
+
+      {/* Profile card container */}
+      <div className="relative min-h-screen flex items-center justify-center p-4">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={currentProfile.id}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="absolute w-full max-w-4xl"
+          >
             <ProfileCard
-              key={profile.id}
-              profile={profile}
-              onSwipe={handleSwipe}
+              profile={currentProfile}
+              onLike={handleLike}
+              onPass={handlePass}
+              onSuperLike={handleSuperLike}
             />
-          )).reverse()}
+          </motion.div>
         </AnimatePresence>
       </div>
     </div>

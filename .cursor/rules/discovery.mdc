@@ -1,0 +1,170 @@
+---
+description: 
+globs: 
+---
+ ---
+description: Discovery feature guidelines for the music collaboration platform
+globs: ["frontend/src/components/features/discovery/**/*"]
+---
+
+# Discovery Feature Guidelines
+
+## User Experience Goals
+- **Seamless Desktop Experience**:
+  ```yaml
+  interaction:
+    keyboard_shortcuts:
+      next_profile: "J"
+      previous_profile: "K"
+      like: "L"
+      pass: "P"
+      super_like: "S"
+      toggle_audio: "Space"
+      toggle_details: "D"
+    gestures:
+      swipe_threshold: "100px"
+      velocity_threshold: "0.5"
+      direction_lock: true
+  ```
+
+## Audio Experience
+- **Playback Controls**:
+  ```yaml
+  audio:
+    formats: ["mp3", "wav"]
+    max_size: "10MB"
+    features:
+      ├── waveform          # Visual representation
+      ├── normalization    # Consistent volume
+      ├── continuous      # Keep playing while browsing
+      └── playlist        # Queue management
+  ```
+
+## Visual Design
+- **Card Layout**:
+  ```yaml
+  card:
+    aspect_ratio: "4:3"
+    max_width: "800px"
+    sections:
+      ├── header           # Profile info & actions
+      ├── media           # Audio/Image gallery
+      ├── details        # Bio & genres
+      └── footer         # Quick actions
+  ```
+
+## Animation System
+- **Smooth Transitions**:
+  ```yaml
+  animations:
+    spring:
+      mass: 1
+      tension: 170
+      friction: 26
+    transitions:
+      ├── card_enter      # Fade + slide up
+      ├── card_exit      # Direction-based
+      ├── details       # Expand/collapse
+      └── audio        # Player controls
+  ```
+
+## Performance Guidelines
+- **Optimization Targets**:
+  ```yaml
+  performance:
+    fps_target: 60
+    load_time: "<100ms"
+    memory_limit: "<100MB"
+    optimizations:
+      ├── virtual_list    # For profile stack
+      ├── lazy_load      # For media assets
+      ├── preload       # Next few profiles
+      └── cleanup      # Remove far profiles
+  ```
+
+## Accessibility
+- **A11y Requirements**:
+  ```yaml
+  accessibility:
+    keyboard:
+      ├── focus_trap      # Within active card
+      ├── focus_restore  # After card dismiss
+      └── shortcuts     # All actions
+    aria:
+      ├── labels        # Interactive elements
+      ├── live_regions # Dynamic content
+      └── roles       # Semantic structure
+  ```
+
+## Media Handling
+- **Asset Management**:
+  ```yaml
+  media:
+    images:
+      ├── formats        # WebP, JPEG
+      ├── sizes         # Responsive
+      └── loading      # Progressive
+    audio:
+      ├── streaming    # Chunked loading
+      ├── caching     # Local storage
+      └── fallback   # Format support
+  ```
+
+## Error Handling
+- **Recovery Strategies**:
+  ```yaml
+  errors:
+    media:
+      ├── retry          # Failed loads
+      ├── fallback      # Alternative source
+      └── placeholder  # Missing content
+    interaction:
+      ├── undo         # Accidental swipe
+      ├── refresh     # Stack exhausted
+      └── offline    # No connection
+  ```
+
+## Testing Requirements
+- **Quality Assurance**:
+  ```yaml
+  testing:
+    performance:
+      ├── fps_monitoring
+      ├── memory_leaks
+      └── load_times
+    interaction:
+      ├── keyboard_flow
+      ├── gesture_accuracy
+      └── error_recovery
+    accessibility:
+      ├── screen_readers
+      ├── keyboard_only
+      └── color_contrast
+  ```
+
+## Development Workflow
+- **Implementation Process**:
+  ```yaml
+  workflow:
+    steps:
+      ├── prototype      # Animation testing
+      ├── implement     # Core features
+      ├── optimize     # Performance
+      ├── test        # All scenarios
+      └── polish     # Final touches
+  ```
+
+## Success Metrics
+- **Key Indicators**:
+  ```yaml
+  metrics:
+    engagement:
+      ├── time_in_app
+      ├── profiles_viewed
+      ├── likes_ratio
+      └── matches_made
+    performance:
+      ├── fps_sustained
+      ├── load_success
+      └── error_rate
+  ```

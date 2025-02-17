@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Profile } from '../types';
 import { api } from '../services/api';
 
@@ -7,6 +7,52 @@ interface UseProfilesOptions {
   genre?: string;
   limit?: number;
 }
+
+// Mock data for development
+const mockProfiles: Profile[] = [
+  {
+    id: '1',
+    name: 'John Doe',
+    artistType: 'Artist',
+    bio: 'Singer-songwriter with a passion for indie folk and electronic fusion.',
+    location: 'Paris, France',
+    genres: ['Indie Folk', 'Electronic', 'Acoustic'],
+    audioClips: [
+      {
+        url: 'https://example.com/song1.mp3',
+        title: 'Autumn Leaves',
+        duration: 180
+      },
+      {
+        url: 'https://example.com/song2.mp3',
+        title: 'Winter Dreams',
+        duration: 210
+      }
+    ],
+    imageUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61'
+  },
+  {
+    id: '2',
+    name: 'Sarah Smith',
+    artistType: 'Beatmaker',
+    bio: 'Electronic music producer specializing in lo-fi beats and ambient soundscapes.',
+    location: 'London, UK',
+    genres: ['Lo-Fi', 'Ambient', 'Electronic'],
+    audioClips: [
+      {
+        url: 'https://example.com/beat1.mp3',
+        title: 'Midnight Groove',
+        duration: 160
+      },
+      {
+        url: 'https://example.com/beat2.mp3',
+        title: 'Urban Flow',
+        duration: 190
+      }
+    ],
+    imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330'
+  }
+];
 
 export function useProfiles(options: UseProfilesOptions = {}) {
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -61,6 +107,22 @@ export function useProfiles(options: UseProfilesOptions = {}) {
       setError(err instanceof Error ? err.message : 'Failed to pass profile');
     }
   }, [currentProfile]);
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setProfiles(mockProfiles);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch profiles');
+        setLoading(false);
+      }
+    };
+
+    fetchProfiles();
+  }, []);
 
   return {
     profiles,

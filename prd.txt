@@ -14,149 +14,189 @@ Simple Onboarding: Sign up using email or Google authentication.
 Detailed Profiles: Users can set up comprehensive profiles including:
 - User Type: Choose whether you're an Artist, Beatmaker, or both
 - Bio and Background: Detail musical influences and experience
-- Media Uploads: Add 1-2 audio clips as creative samples
+- Media Uploads: Add 1-3 audio clips as creative samples
 - Basic Links: Connect to SoundCloud or YouTube
 
-Matching Mechanism
-Browse Interface: Users browse through profiles with like/pass buttons.
-Basic Matching: Consider user preferences such as musical genre and project type.
-Reciprocal Matching: A match is confirmed when both users show interest.
+Discovery Experience
+Modern Interface: Desktop-optimized discovery with keyboard shortcuts and smooth animations.
+Rich Media Preview: 
+- Inline audio player with waveform visualization
+- Quick preview of all tracks without leaving the card
+- Keyboard shortcuts for playback control (space, arrow keys)
+- Continuous playback while browsing
+
+Profile Cards:
+- Large format cards optimized for desktop viewing
+- Dynamic backgrounds based on profile images
+- Smooth transitions and micro-interactions
+- Quick actions menu (like, pass, super-like)
+- Expandable sections for detailed information
 
 Interaction Tools
-In-App Messaging: Text chat with basic audio file sharing.
-Audio Previews: Listen to audio snippets directly within profiles.
-Basic Contact: Share contact info after matching.
+Advanced Audio Player:
+- Waveform visualization
+- Loop sections of interest
+- Volume normalization
+- Playlist creation from liked tracks
+
+Profile Interaction:
+- Quick actions via keyboard shortcuts
+- Detailed view without losing context
+- Share profiles with collaborators
+- Save profiles for later
 
 3. MVP Features
-A. User Profile
-Profile Setup: Basic info and preferences
-Media Upload: Single audio sample upload
-Stats: View matches and likes
+A. Discovery System
+Card Interface:
+- Responsive card layout optimized for desktop
+- Smooth animations and transitions
+- Keyboard navigation support
+- Quick actions menu
+- Expandable sections
 
-B. Discovery System
-Like/Pass: Simple discovery system
-Basic Filters: Genre and user type filters
-Grid View: Alternative to swipe interface
+Audio Experience:
+- Waveform visualization
+- Continuous playback
+- Multiple track preview
+- Basic audio controls
+- Volume normalization
 
-C. Communication
-Text Chat: Basic messaging system
-Audio Sharing: Share audio files in chat
-Notifications: Email notifications for matches
+Navigation:
+- Keyboard shortcuts (J/K, arrows, space)
+- Mouse/trackpad gestures
+- Quick filters and sorting
+- History view
 
-D. Media Handling
-Audio Upload: Support for mp3 format
-Preview Generation: 30-second preview clips
-File Validation: Basic size and format checks
+B. Profile Enhancement
+Rich Media:
+- Multiple audio track support
+- Waveform previews
+- Cover art display
+- Embedded video support
+
+Profile Sections:
+- Featured tracks
+- Recent activity
+- Collaboration history
+- Genre tags with popularity
+- Equipment/DAW tags
+
+C. Interaction Features
+Quick Actions:
+- Like/Pass with animations
+- Super-like with special effects
+- Save for later
+- Share profile
+- Report inappropriate content
+
+Audio Controls:
+- Play/Pause (space)
+- Next/Previous track (arrow keys)
+- Volume control (up/down)
+- Loop section (L)
+- Add to playlist (P)
 
 4. Technical Implementation
 Core Components
-- User Management:
-  * TypeScript interfaces for User and Profile types
-  * JWT-based authentication
-  * Profile management with media support
-  
 - Discovery System:
-  * Swipeable card interface
-  * Profile matching algorithm
-  * Like/Pass functionality
-  * Match notifications
+  * Optimized card rendering
+  * Virtual list for performance
+  * Preloading of media
+  * Smooth animations
+  * Keyboard manager
+  
+- Media Player:
+  * Waveform generation
+  * Audio normalization
+  * Playlist management
+  * Continuous playback
+  * Keyboard shortcuts
 
-- Media Handling:
-  * Audio file upload and validation
-  * Preview generation
-  * Secure storage and delivery
-
-- Real-time Features:
-  * WebSocket-based chat
-  * Match notifications
-  * Online status
+- Interaction Engine:
+  * Gesture recognition
+  * Animation system
+  * State management
+  * Event tracking
+  * Error recovery
 
 Architecture
 Frontend:
-- Component Architecture:
-  * Reusable UI components
-  * Feature-specific components
-  * Layout components
-  
+- Performance:
+  * Code splitting
+  * Asset optimization
+  * Lazy loading
+  * Virtual scrolling
+  * Service workers
+
 - State Management:
-  * React Context for global state
-  * Custom hooks for feature logic
-  * Type-safe API integration
+  * Centralized audio control
+  * Persistent preferences
+  * Cache management
+  * Offline support
 
-- Data Flow:
-  * Centralized API service
-  * Type-safe responses
-  * Error handling
-
-Backend:
-- API Design:
-  * RESTful endpoints
-  * WebSocket integration
-  * JWT authentication
-
-- Database:
-  * PostgreSQL with SQLAlchemy
-  * Efficient queries
-  * Data validation
+- Animation System:
+  * Spring animations
+  * Gesture following
+  * Transition management
+  * Parallel animations
+  * Performance monitoring
 
 5. Development Phases
-Phase 1 – Core Infrastructure (Current)
-- Project architecture setup
+Phase 1 – Core Infrastructure (Completed)
+- Basic setup and authentication
 - Component library
-- API service layer
-- Authentication system
-- Basic routing
+- Routing and navigation
+- State management
 
-Phase 2 – Discovery Feature
-- Profile card component
-- Swipe interface
-- Like/Pass functionality
-- Match notifications
-- Basic filters
+Phase 2 – Discovery Enhancement (Current)
+- Advanced card interface
+- Keyboard navigation
+- Audio visualization
+- Continuous playback
+- Quick actions
 
-Phase 3 – Media Features
-- Audio upload
-- Preview generation
-- Player component
-- Storage integration
+Phase 3 – Media Experience
+- Waveform generation
+- Playlist management
+- Audio normalization
+- Video integration
+- Media optimization
 
-Phase 4 – Interaction
-- Chat interface
-- Real-time updates
+Phase 4 – Interaction Polish
+- Animation system
+- Gesture support
+- Keyboard shortcuts
+- Quick actions
 - Profile sharing
-- Contact exchange
 
-Phase 5 – Polish
-- UI/UX improvements
-- Performance optimization
-- Error handling
+Phase 5 – Performance
+- Load optimization
+- Animation performance
+- Media preloading
+- Caching strategy
 - Analytics integration
 
-6. Technical Stack
-Frontend
-- React with TypeScript
-- Vite for development
-- Basic responsive design
-- Local development server
+6. Success Metrics
+User Engagement:
+- Time in discovery
+- Tracks played
+- Actions per session
+- Return frequency
+- Feature adoption
 
-Backend
-- FastAPI for API
-- Local PostgreSQL database
-- File system storage
-- Basic authentication
+Performance:
+- Load times
+- Animation FPS
+- Media start time
+- Interaction delay
+- Error rates
 
-Security
-- JWT authentication
-- Basic input validation
-- File upload limits
-- CORS configuration
-
-7. Success Metrics
-Core KPIs
-- User Signups
-- Profile Completion
-- Match Rate
-- Message Rate
+Matches:
+- Match rate
+- Response time
+- Conversation length
+- Collaboration rate
+- User retention
 
 Conclusion
 This MVP focuses on essential features that enable basic music collaboration. By starting with core functionality, we can gather user feedback and iterate based on real usage patterns.

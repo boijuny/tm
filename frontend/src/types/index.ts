@@ -1,21 +1,20 @@
 // User related types
 export interface User {
   id: string;
-  displayName: string;
-  photoURL?: string;
-  userType?: UserType;
-  bio?: string;
-  media: MediaItem[];
-  genres?: string[];
-  location?: string;
-  socialLinks?: {
-    instagram?: string;
-    soundcloud?: string;
-    spotify?: string;
-    youtube?: string;
-  };
-  likes: string[]; // Array of user IDs
-  passes: string[]; // Array of user IDs
+  name: string;
+  artistType: 'Artist' | 'Beatmaker' | 'Both';
+  genres: string[];
+  bio: string;
+  location: string;
+  audioClips: AudioClip[];
+  imageUrl: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  likes: string[];
+  passes: string[];
+  matches: string[];
+  socialLinks?: SocialLinks;
 }
 
 export type UserType = 'artist' | 'beatmaker';
@@ -45,11 +44,28 @@ export interface MediaItem {
 }
 
 // Profile types
-export interface Profile extends User {
-  media: MediaItem[];
-  matches: string[]; // Array of user IDs
-  likes: string[]; // Array of user IDs
-  passes: string[]; // Array of user IDs
+export interface AudioClip {
+  url: string;
+  title: string;
+  duration: number;
+}
+
+export interface SocialLinks {
+  spotify?: string;
+  soundcloud?: string;
+  instagram?: string;
+  youtube?: string;
+}
+
+export interface Profile {
+  id: string;
+  name: string;
+  artistType: 'Artist' | 'Beatmaker' | 'Both';
+  genres: string[];
+  bio: string;
+  location: string;
+  audioClips: AudioClip[];
+  imageUrl: string;
 }
 
 export interface Media {
@@ -61,19 +77,18 @@ export interface Media {
   thumbnailUrl?: string;
 }
 
-export interface Profile {
+export interface Match {
   id: string;
-  displayName: string;
-  photoURL?: string;
-  userType: 'Artiste' | 'Beatmaker';
-  bio: string;
-  media?: Media[];
-  genres?: string[];
-  location?: string;
-  socialLinks?: {
-    instagram?: string;
-    soundcloud?: string;
-    spotify?: string;
-    youtube?: string;
-  };
+  users: string[];
+  createdAt: string;
+  lastMessageAt: string | null;
+}
+
+export interface Message {
+  id: string;
+  matchId: string;
+  senderId: string;
+  content: string;
+  createdAt: string;
+  readAt: string | null;
 } 

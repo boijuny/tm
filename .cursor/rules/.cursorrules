@@ -211,6 +211,39 @@ dependency_management:
             }
         },
         {
+            "name": "Discovery Feature",
+            "pattern": "frontend/src/components/features/discovery/**/*.{tsx,ts}",
+            "guidelines": {
+                "performance": {
+                    "animation_fps_target": 60,
+                    "load_time_target_ms": 100,
+                    "media_preload_strategy": "viewport-based",
+                    "virtual_list_threshold": 20
+                },
+                "accessibility": {
+                    "keyboard_shortcuts": true,
+                    "aria_labels": true,
+                    "focus_management": true,
+                    "color_contrast": true
+                },
+                "audio": {
+                    "formats": ["mp3", "wav"],
+                    "max_size_mb": 10,
+                    "waveform_resolution": 2048,
+                    "normalization": true
+                },
+                "animations": {
+                    "spring_config": {
+                        "mass": 1,
+                        "tension": 170,
+                        "friction": 26
+                    },
+                    "transition_duration_ms": 300,
+                    "gesture_velocity_threshold": 0.5
+                }
+            }
+        },
+        {
             "name": "Backend Development",
             "pattern": "backend/app/**/*.py",
             "on_save": {

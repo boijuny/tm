@@ -6,21 +6,68 @@
   project_structure:
     frontend:
       - src/
-        ├── components/     # Reusable UI components
-        ├── pages/         # Page components
-        ├── services/      # API services
-        ├── utils/         # Helper functions
-        ├── assets/        # Static assets
-        └── styles/        # CSS and style files
+        ├── components/        # Reusable UI components
+        │   ├── ui/           # Basic UI components
+        │   ├── layout/       # Layout components
+        │   └── features/     # Feature-specific components
+        ├── hooks/            # Custom React hooks
+        ├── services/         # API and other services
+        ├── types/            # TypeScript type definitions
+        ├── contexts/         # React contexts
+        ├── pages/            # Page components
+        ├── utils/            # Utility functions
+        └── assets/          # Static assets
     backend:
       - app/
-        ├── api/          # API routes
-        ├── core/         # Core functionality
-        ├── db/           # Database
-        ├── models/       # SQLAlchemy models
-        ├── schemas/      # Pydantic schemas
-        ├── services/     # Business logic
-        └── utils/        # Utilities
+        ├── api/             # API routes
+        │   ├── auth/        # Authentication endpoints
+        │   ├── profiles/    # Profile endpoints
+        │   └── media/       # Media handling endpoints
+        ├── core/            # Core functionality
+        │   ├── config/      # Configuration
+        │   └── security/    # Security utilities
+        ├── db/              # Database
+        │   ├── models/      # SQLAlchemy models
+        │   └── migrations/  # Alembic migrations
+        ├── schemas/         # Pydantic schemas
+        ├── services/        # Business logic
+        └── utils/           # Utilities
+  ```
+
+## Component Architecture
+- **Pattern**: `frontend/src/components/**/*`
+  ```yaml
+  component_rules:
+    ui:                    # Basic UI components
+      - Fully reusable
+      - No business logic
+      - Prop-based styling
+      - Comprehensive tests
+    
+    layout:               # Layout components
+      - Page structure
+      - Navigation
+      - Responsive design
+    
+    features:            # Feature components
+      - Business logic in hooks
+      - Data fetching via services
+      - Error boundaries
+  ```
+
+## State Management
+- **Pattern**: `frontend/src/{contexts,hooks}/**/*`
+  ```yaml
+  state_management:
+    contexts:             # Global state
+      - Authentication
+      - Theme
+      - Notifications
+    
+    hooks:               # Local state
+      - Feature-specific logic
+      - Data fetching
+      - Form handling
   ```
 
 ## Environment Verification

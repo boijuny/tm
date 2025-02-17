@@ -50,29 +50,87 @@ File Validation: Basic size and format checks
 
 4. Technical Implementation
 Core Components
-- User Management: Basic authentication and profiles
-- Match System: Simple matching logic
-- Media: Local file system storage
-- Chat: WebSocket-based messaging
+- User Management:
+  * TypeScript interfaces for User and Profile types
+  * JWT-based authentication
+  * Profile management with media support
+  
+- Discovery System:
+  * Swipeable card interface
+  * Profile matching algorithm
+  * Like/Pass functionality
+  * Match notifications
 
-Development Environment
-- Frontend: Local Vite development server
-- Backend: Local FastAPI server
-- Database: Local PostgreSQL instance
-- Storage: Local file system
+- Media Handling:
+  * Audio file upload and validation
+  * Preview generation
+  * Secure storage and delivery
+
+- Real-time Features:
+  * WebSocket-based chat
+  * Match notifications
+  * Online status
+
+Architecture
+Frontend:
+- Component Architecture:
+  * Reusable UI components
+  * Feature-specific components
+  * Layout components
+  
+- State Management:
+  * React Context for global state
+  * Custom hooks for feature logic
+  * Type-safe API integration
+
+- Data Flow:
+  * Centralized API service
+  * Type-safe responses
+  * Error handling
+
+Backend:
+- API Design:
+  * RESTful endpoints
+  * WebSocket integration
+  * JWT authentication
+
+- Database:
+  * PostgreSQL with SQLAlchemy
+  * Efficient queries
+  * Data validation
 
 5. Development Phases
-Phase 1 – Core MVP
-- Local development setup
-- User Management
-- Basic Discovery
-- Simple Chat
-- Audio Upload
+Phase 1 – Core Infrastructure (Current)
+- Project architecture setup
+- Component library
+- API service layer
+- Authentication system
+- Basic routing
 
-Phase 2 – User Feedback
-- Feature improvements based on testing
-- UI/UX enhancements
-- Additional user-requested features
+Phase 2 – Discovery Feature
+- Profile card component
+- Swipe interface
+- Like/Pass functionality
+- Match notifications
+- Basic filters
+
+Phase 3 – Media Features
+- Audio upload
+- Preview generation
+- Player component
+- Storage integration
+
+Phase 4 – Interaction
+- Chat interface
+- Real-time updates
+- Profile sharing
+- Contact exchange
+
+Phase 5 – Polish
+- UI/UX improvements
+- Performance optimization
+- Error handling
+- Analytics integration
 
 6. Technical Stack
 Frontend

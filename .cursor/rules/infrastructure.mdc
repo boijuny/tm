@@ -7,18 +7,18 @@ description: Local development guidelines for the music collaboration platform (
 globs: ["scripts/**/*"]
 ---
 
-# MVP Development Guidelines
+# Local Development Guidelines
 
-## Local Development Setup
-- **Pattern**: `scripts/**/*`
-  - Development environment:
-    ```yaml
-    # Core components
-    components:
-      ├── frontend        # React/Vite development
-      ├── backend         # FastAPI service
-      └── database        # Local PostgreSQL
-    ```
+## Development Environment Setup
+- **Core Requirements**:
+  ```yaml
+  # Required local installations
+  tools:
+    ├── python         # Python 3.9+
+    ├── node          # Node.js 16+
+    ├── postgresql    # PostgreSQL 13+
+    └── poetry        # Python dependency management
+  ```
 
 ## Environment Configuration
 - **Pattern**: `*/.env*`
@@ -33,20 +33,25 @@ globs: ["scripts/**/*"]
 
 ## Database Setup
 - Local PostgreSQL:
-  - Simple connection setup
+  ```yaml
+  database:
+    host: localhost
+    port: 5432
+    name: musiccollab
+    user: postgres
+  ```
   - Basic migrations
   - Development data seeds
   - Regular backups
 
-## Media Storage
-- Local file system storage:
-  - Organized directory structure:
-    ```yaml
-    storage:
-      ├── uploads/         # User uploads
-      ├── audio/          # Audio files
-      └── previews/       # Generated previews
-    ```
+## Local Storage
+- File system structure:
+  ```yaml
+  storage:
+    ├── uploads/         # User uploads
+    ├── audio/          # Audio files
+    └── previews/       # Generated previews
+  ```
   - Regular local backups
   - File size limits
 
@@ -60,6 +65,17 @@ globs: ["scripts/**/*"]
   ```
 - Code review process
 - Testing before merge
+
+## Local Services
+- Frontend (Vite):
+  - Port: 5173
+  - Hot reload enabled
+- Backend (FastAPI):
+  - Port: 8000
+  - Auto-reload enabled
+- Database:
+  - Port: 5432
+  - Local instance
 
 ## Testing Strategy
 - Unit tests
@@ -77,14 +93,31 @@ postgresql: ">=13.0"
 # Package managers
 pip: "latest"
 npm: "latest"
+poetry: ">=1.4.0"
 ```
 
 ## Local Setup Checklist
-- Environment setup
-- Database initialization
-- Dependencies installation
-- Test suite running
-- Local server startup
+1. Install required tools:
+   - Python 3.9+
+   - Node.js 16+
+   - PostgreSQL 13+
+   - Poetry
+
+2. Backend setup:
+   - Install dependencies with Poetry
+   - Set up local database
+   - Run migrations
+   - Start FastAPI server
+
+3. Frontend setup:
+   - Install npm dependencies
+   - Configure environment
+   - Start Vite dev server
+
+4. Development tools:
+   - Configure IDE
+   - Set up linters
+   - Install Git hooks
 
 ## Security Basics
 - Secure authentication

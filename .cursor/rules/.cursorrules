@@ -1,200 +1,191 @@
-# Cursor Rules for Music Collaboration Platform
+# Cursor Rules for Music Collaboration Platform (MVP)
+
+## Project Structure Verification
+- **Pattern**: `**/*`
+  ```yaml
+  project_structure:
+    frontend:
+      - src/
+        ├── components/     # Reusable UI components
+        ├── pages/         # Page components
+        ├── services/      # API services
+        ├── utils/         # Helper functions
+        ├── assets/        # Static assets
+        └── styles/        # CSS and style files
+    backend:
+      - app/
+        ├── api/          # API routes
+        ├── core/         # Core functionality
+        ├── db/           # Database
+        ├── models/       # SQLAlchemy models
+        ├── schemas/      # Pydantic schemas
+        ├── services/     # Business logic
+        └── utils/        # Utilities
+  ```
+
+## Environment Verification
+- **Pattern**: `**/*.env*`
+  ```yaml
+  required_env:
+    frontend:
+      - VITE_API_URL
+      - VITE_WEBSOCKET_URL
+    backend:
+      - DATABASE_URL
+      - SECRET_KEY
+      - CORS_ORIGINS
+  ```
+  - Never commit .env files
+  - Always update .env.example
+  - Verify all required variables
+
+## Path Management
+- **Pattern**: `**/*`
+  ```yaml
+  path_conventions:
+    - Use relative imports within modules
+    - Keep import depth <= 3 levels
+    - Use index files for module exports
+    - Maintain consistent path aliases
+  ```
 
 ## Code Style and Quality
-- **Pattern**: `**/*.{js,jsx,ts,tsx}`
-  - Enforce consistent code formatting
-  - Run linter on save
-  - Use 2 spaces for indentation
-  - Trim trailing whitespace
-  - Insert final newline
-
-## Testing Requirements
-- **Pattern**: `src/**/*.{js,jsx,ts,tsx}`
-  - Write tests for new features in `__tests__` directory
-  - Follow test-driven development practices
-  - Ensure adequate test coverage
-
-## Media Files
-- **Pattern**: `**/*.{mp3,wav,ogg}`
-  - Optimize audio files
-  - Keep file size under 10MB
-  - Implement proper error handling for media operations
-
-## API Development
-- **Pattern**: `src/api/**/*.{js,ts}`
-  - Implement proper authentication
-  - Set up rate limiting
-  - Handle errors gracefully
-  - Document API endpoints
+- **Pattern**: `**/*.{js,jsx,ts,tsx,py}`
+  ```yaml
+  style_rules:
+    frontend:
+      - ESLint configuration
+      - Prettier formatting
+      - TypeScript strict mode
+    backend:
+      - Black formatting
+      - Ruff linting
+      - MyPy type checking
+  ```
 
 ## Database Management
-- **Pattern**: `src/db/schema/**/*.{js,ts}`
-  - Create migration files for schema changes
-  - Document database modifications
-  - Follow database naming conventions
+- **Pattern**: `backend/app/db/**/*`
+  ```yaml
+  database_practices:
+    - Verify migrations before applying
+    - Keep migration files atomic
+    - Document schema changes
+    - Include rollback procedures
+  ```
 
-## Frontend Components
-- **Pattern**: `src/components/**/*.{jsx,tsx}`
-  - Follow atomic design principles
-  - Use PropTypes/TypeScript interfaces
-  - Implement responsive design
-  - Maintain component reusability
+## Testing Strategy
+- **Pattern**: `**/__tests__/**/*`
+  ```yaml
+  testing_requirements:
+    - Unit tests for utilities
+    - Integration tests for APIs
+    - Component tests for UI
+    - E2E tests for critical flows
+  ```
 
-## State Management
-- **Pattern**: `src/store/**/*.{js,ts}`
-  - Use immutable state changes
-  - Type all actions and reducers
-  - Document state structure
-  - Implement proper error handling
+## Development Workflow
+- **Pattern**: `.git/*`
+  ```yaml
+  git_workflow:
+    branches:
+      - main: stable releases
+      - develop: integration
+      - feature/*: new features
+    commits:
+      - type(scope): description
+      - types: feat, fix, docs, style, refactor
+  ```
 
-## Real-time Features
-- **Pattern**: `src/components/rtc/**/*.{js,jsx,ts,tsx}`
-  - Clean up WebRTC connections
-  - Implement fallback mechanisms
-  - Handle connection errors
-  - Optimize for performance
+## Best Practices for AI Development
 
-## Security
-- **Pattern**: `**/*.env*`
-  - Use environment variables for sensitive data
-  - Never commit API keys or secrets
-  - Implement proper security measures
-  - Follow security best practices
+### Project Comprehension
+```yaml
+before_modifications:
+  - Verify current architecture
+  - Check existing patterns
+  - Review related files
+  - Understand dependencies
+  - Check test coverage
 
-## Global Guidelines
-- Maximum file size: 50MB
-- Use consistent naming conventions
-- Write clear documentation
-- Follow DRY principles
-- Optimize for performance
+during_development:
+  - Follow established patterns
+  - Maintain file organization
+  - Update documentation
+  - Add/update tests
+  - Consider error handling
+
+after_changes:
+  - Verify functionality
+  - Run test suite
+  - Update documentation
+  - Check for side effects
+  - Review security implications
+```
+
+### Code Navigation
+```yaml
+file_organization:
+  - Group related functionality
+  - Use consistent naming
+  - Maintain module boundaries
+  - Document public APIs
+  - Keep files focused
+
+dependency_management:
+  - Track direct dependencies
+  - Minimize external deps
+  - Version lock critical deps
+  - Document requirements
+  - Regular updates
+```
+
+## Security Basics
+- **Pattern**: `**/*`
+  ```yaml
+  security_practices:
+    - Input validation
+    - Output sanitization
+    - Authentication checks
+    - Authorization rules
+    - File upload limits
+    - CORS configuration
+  ```
 
 {
     "version": 1,
     "rules": [
         {
-            "name": "Git Commit Messages",
-            "pattern": ".git/COMMIT_EDITMSG",
-            "on_save": {
-                "validate": true,
-                "message": "Commit message should follow conventional commits format: type(scope): description\nTypes: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, audio"
-            }
-        },
-        {
-            "name": "Git Branch Names",
-            "pattern": ".git/HEAD",
-            "on_save": {
-                "validate": true,
-                "message": "Branch names should follow pattern: type/description-in-kebab-case\nTypes: feature, bugfix, hotfix, release, docs"
-            }
-        },
-        {
             "name": "Frontend Development",
-            "pattern": "src/{components,pages,styles,features}/**/*.{tsx,jsx,css,scss}",
-            "rule_file": ".cursor/rules/frontend.mdc",
+            "pattern": "frontend/src/**/*.{tsx,jsx,ts,js,css,scss}",
             "on_save": {
                 "autoformat": true,
                 "lint": true,
-                "typecheck": true,
-                "pre_commit": [
-                    "npm run lint",
-                    "npm run type-check",
-                    "npm run test:affected"
-                ]
-            }
-        },
-        {
-            "name": "Frontend Tests",
-            "pattern": "src/**/__tests__/**/*.{ts,tsx}",
-            "rule_file": ".cursor/rules/frontend.mdc",
-            "on_save": {
-                "autoformat": true,
-                "lint": true,
-                "run_tests": true
+                "typecheck": true
             }
         },
         {
             "name": "Backend Development",
-            "pattern": "src/**/*.py",
-            "rule_file": ".cursor/rules/backend.mdc",
+            "pattern": "backend/app/**/*.py",
             "on_save": {
                 "autoformat": true,
                 "lint": true,
-                "typecheck": true,
-                "pre_commit": [
-                    "black .",
-                    "flake8",
-                    "mypy",
-                    "pytest tests/unit"
-                ]
+                "typecheck": true
             }
         },
         {
-            "name": "Backend Tests",
-            "pattern": "tests/**/*.py",
-            "rule_file": ".cursor/rules/backend.mdc",
+            "name": "Test Files",
+            "pattern": "**/__tests__/**/*.{ts,tsx,py}",
             "on_save": {
                 "autoformat": true,
                 "lint": true,
                 "run_tests": true
-            }
-        },
-        {
-            "name": "Infrastructure",
-            "pattern": "{infrastructure,terraform}/**/*.{tf,yml,yaml}",
-            "rule_file": ".cursor/rules/infrastructure.mdc",
-            "on_save": {
-                "autoformat": true,
-                "lint": true,
-                "validate": true,
-                "pre_commit": [
-                    "terraform fmt",
-                    "terraform validate"
-                ]
-            }
-        },
-        {
-            "name": "Docker Configuration",
-            "pattern": "docker/**/*.{yml,yaml,dockerfile}",
-            "rule_file": ".cursor/rules/infrastructure.mdc",
-            "on_save": {
-                "autoformat": true,
-                "lint": true,
-                "validate": true,
-                "pre_commit": [
-                    "hadolint Dockerfile"
-                ]
-            }
-        },
-        {
-            "name": "Database Migrations",
-            "pattern": "src/db/migrations/**/*.{py,sql}",
-            "rule_file": ".cursor/rules/backend.mdc",
-            "on_save": {
-                "autoformat": true,
-                "lint": true,
-                "validate": true,
-                "pre_commit": [
-                    "sqlfluff lint"
-                ]
-            }
-        },
-        {
-            "name": "Audio Assets",
-            "pattern": "public/audio/**/*.{mp3,wav,ogg}",
-            "max_file_size_mb": 10,
-            "on_save": {
-                "validate": true,
-                "optimize": true
             }
         },
         {
             "name": "Environment Files",
             "pattern": "**/*.env*",
             "on_save": {
-                "message": "⚠️ Ensure no sensitive data is committed. Use environment variables for secrets.",
-                "pre_commit": [
-                    "detect-secrets scan"
-                ]
+                "message": "⚠️ Ensure no sensitive data is committed. Use environment variables for secrets."
             }
         },
         {
@@ -202,41 +193,24 @@
             "pattern": "**/*.{md,mdx}",
             "on_save": {
                 "autoformat": true,
-                "lint": true,
                 "spellcheck": true
             }
         }
     ],
     "global_rules": {
-        "max_file_size_mb": 50,
+        "max_file_size_mb": 10,
         "indent_style": "space",
         "indent_size": 2,
         "end_of_line": "lf",
         "charset": "utf-8",
         "trim_trailing_whitespace": true,
-        "insert_final_newline": true,
-        "on_save": {
-            "remove_unused_imports": true,
-            "organize_imports": true
-        }
+        "insert_final_newline": true
     },
     "git_rules": {
         "branch_name_pattern": "^(feature|bugfix|hotfix|release|docs)/[a-z0-9-]+$",
-        "commit_message_pattern": "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|audio)(\\([a-z-]+\\))?: .+$",
-        "max_commit_size": 500,
+        "commit_message_pattern": "^(feat|fix|docs|style|refactor|perf|test|chore|revert)(\\([a-z-]+\\))?: .+$",
         "protected_branches": ["main", "develop"],
-        "require_linear_history": true,
-        "require_pull_request": true,
-        "require_up_to_date_branch": true,
-        "block_force_push": true,
-        "pre_commit_hooks": [
-            "check-yaml",
-            "check-json",
-            "check-merge-conflict",
-            "detect-private-key",
-            "check-added-large-files",
-            "no-commit-to-branch --branch main --branch develop"
-        ]
+        "require_linear_history": true
     },
     "ignore_patterns": [
         "node_modules/**",
@@ -245,8 +219,6 @@
         ".git/**",
         "dist/**",
         "build/**",
-        ".next/**",
-        "coverage/**",
-        ".terraform/**"
+        "coverage/**"
     ]
 }

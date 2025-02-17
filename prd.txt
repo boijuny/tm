@@ -52,16 +52,18 @@ File Validation: Basic size and format checks
 Core Components
 - User Management: Basic authentication and profiles
 - Match System: Simple matching logic
-- Media: Local file storage with basic processing
-- Chat: Simple real-time messaging
+- Media: Local file system storage
+- Chat: WebSocket-based messaging
 
-Infrastructure (Local Development)
-- Database: Local PostgreSQL
-- Storage: File system storage
-- Caching: Basic in-memory caching
+Development Environment
+- Frontend: Local Vite development server
+- Backend: Local FastAPI server
+- Database: Local PostgreSQL instance
+- Storage: Local file system
 
 5. Development Phases
 Phase 1 – Core MVP
+- Local development setup
 - User Management
 - Basic Discovery
 - Simple Chat
@@ -77,11 +79,12 @@ Frontend
 - React with TypeScript
 - Vite for development
 - Basic responsive design
+- Local development server
 
 Backend
 - FastAPI for API
-- PostgreSQL for data
-- Local file storage
+- Local PostgreSQL database
+- File system storage
 - Basic authentication
 
 Security

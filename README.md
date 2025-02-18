@@ -1,197 +1,213 @@
-# Music Collaboration Platform
+# MusicMatch - Artist Discovery Platform
 
-A modern web platform that connects artists and beatmakers through an intuitive, Tinder-like discovery experience. Built with React, FastAPI, and PostgreSQL.
+A modern platform for connecting artists through their creative universe, built with React, TypeScript, and FastAPI.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Python 3.9+
-- Node.js 16+
-- PostgreSQL 13+
-- Poetry (Python dependency management)
-
-### Backend Setup
-
-1. Install Python dependencies:
 ```bash
-cd backend
-poetry install
+# Required versions
+Node.js >= 18.0.0
+Python >= 3.9
+PostgreSQL >= 13.0
+Redis >= 6.0
+Poetry >= 1.4.0
 ```
 
-2. Set up environment variables:
+### Installation
+
+1. **Clone the repository**
 ```bash
-cp .env.example .env
-# Edit .env with your database credentials and other configurations
+git clone https://github.com/your-username/musicmatch.git
+cd musicmatch
 ```
 
-3. Initialize the database:
-```bash
-poetry run alembic upgrade head
-```
-
-4. Start the backend server:
-```bash
-poetry run uvicorn app.main:app --reload
-```
-
-The API will be available at `http://localhost:8000`
-
-### Frontend Setup
-
-1. Install Node.js dependencies:
+2. **Frontend Setup**
 ```bash
 cd frontend
 npm install
-```
-
-2. Set up environment variables:
-```bash
-cp .env.example .env
-# Edit .env with your API URL and other configurations
-```
-
-3. Start the development server:
-```bash
+cp .env.example .env.local  # Configure your environment variables
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`
-
-## 🎯 Features
-
-### Discovery Experience
-- Desktop-optimized discovery interface
-- Keyboard shortcuts for quick interactions
-- Smooth animations and transitions
-- Rich media preview with audio player
-- Profile cards with detailed information
-
-### Audio Features
-- Waveform visualization
-- Continuous playback while browsing
-- Multiple track preview
-- Volume normalization
-
-### User Profiles
-- Comprehensive artist profiles
-- Genre tagging system
-- Audio clip uploads
-- Social media integration
-
-## 🎹 Keyboard Shortcuts
-
-- `J` - Next profile
-- `K` - Previous profile
-- `L` - Like profile
-- `P` - Pass profile
-- `S` - Super like
-- `Space` - Toggle audio playback
-- `D` - Toggle profile details
-- `↑` - Volume up
-- `↓` - Volume down
-
-## 🛠 Development
-
-### Project Structure
-```
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ui/           # Basic UI components
-│   │   │   ├── layout/       # Layout components
-│   │   │   └── features/     # Feature-specific components
-│   │   ├── hooks/            # Custom React hooks
-│   │   ├── services/         # API services
-│   │   ├── types/           # TypeScript definitions
-│   │   └── contexts/        # React contexts
-│   └── ...
-├── backend/
-│   ├── app/
-│   │   ├── api/             # API routes
-│   │   ├── core/            # Core functionality
-│   │   ├── db/              # Database models
-│   │   └── services/        # Business logic
-│   └── ...
-```
-
-### Code Style
-
-#### Frontend
-- ESLint for linting
-- Prettier for formatting
-- TypeScript in strict mode
-- Follow React best practices
-
-#### Backend
-- Black for formatting
-- Ruff for linting
-- MyPy for type checking
-- Follow FastAPI best practices
-
-### Git Workflow
-
-1. Create feature branch from `develop`:
-```bash
-git checkout -b feature/your-feature-name
-```
-
-2. Make changes and commit using conventional commits:
-```bash
-git commit -m "feat(scope): description"
-```
-
-3. Push changes and create pull request to `develop`
-
-## 📝 API Documentation
-
-Once the backend is running, visit:
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
-
-## 🧪 Testing
-
-### Frontend
-```bash
-cd frontend
-npm test
-```
-
-### Backend
+3. **Backend Setup**
 ```bash
 cd backend
-poetry run pytest
+poetry install
+cp .env.example .env  # Configure your environment variables
+poetry run uvicorn app.main:app --reload
 ```
 
-## 🔧 Configuration
+4. **Database Setup**
+```bash
+# Start PostgreSQL service
+createdb musiccollab
+poetry run alembic upgrade head
+```
+
+## 🏗️ Architecture
+
+### Frontend Structure
+```
+frontend/
+├── src/
+│   ├── components/
+│   │   ├── features/     # Feature-specific components
+│   │   │   ├── profile/  # Profile-related components
+│   │   │   ├── auth/     # Authentication components
+│   │   │   └── home/     # Home page components
+│   │   ├── layout/       # Layout components
+│   │   │   ├── Navbar/
+│   │   │   └── AppLayout/
+│   │   └── ui/           # Shared UI components
+│   │       ├── VideoPlayer/
+│   │       └── AudioPlayer/
+│   ├── pages/            # Route components
+│   ├── contexts/         # React contexts
+│   └── types/           # TypeScript definitions
+```
+
+### Key Components
+
+#### DiscoverPage
+- Profile card navigation system
+- Right-side action bar
+- Media integration (YouTube, SoundCloud)
+- Smooth transitions and animations
+
+#### ProfileCard
+- Comprehensive artist information display
+- Media grid with video/audio previews
+- Platform connections
+- Achievement showcase
+
+#### Media Players
+- VideoPlayer: YouTube integration with thumbnail preview
+- AudioPlayer: SoundCloud integration with waveform visualization
+
+## 🎨 UI System
+
+### Glass Effect Components
+```typescript
+// Available glass panel variants
+glass-panel      // Large components
+glass-panel-sm   // Small controls
+glass-panel-lg   // Full sections
+
+// Usage example
+<div className="glass-panel rounded-2xl p-6">
+  {/* Content */}
+</div>
+```
+
+### Animation System
+```typescript
+// Profile transition timing
+duration: 800ms
+easing: [0.22, 1, 0.36, 1]
+
+// Interactive animations
+whileHover={{ scale: 1.1 }}
+whileTap={{ scale: 0.95 }}
+```
+
+## 📋 Current Status
+
+### Completed Features
+- ✅ Basic profile card system
+- ✅ YouTube video integration
+- ✅ Action bar with like/pass functionality
+- ✅ Glass effect UI system
+- ✅ Responsive layout structure
+- ✅ Basic animation system
+
+### In Progress
+- 🔄 SoundCloud integration
+- 🔄 Profile card content optimization
+- 🔄 Media player improvements
+- 🔄 Performance optimization
+
+### To-Do
+- ⏳ Authentication system
+- ⏳ Profile creation flow
+- ⏳ Backend API integration
+- ⏳ Real-time features
+- ⏳ Testing implementation
+- ⏳ Error handling improvements
+- ⏳ Accessibility enhancements
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+# Frontend
+npm run dev         # Start development server
+npm run build      # Build for production
+npm run lint       # Run ESLint
+npm run test       # Run tests
+
+# Backend
+poetry run uvicorn app.main:app --reload  # Start API server
+poetry run pytest                         # Run tests
+poetry run alembic revision -m "message"  # Create migration
+poetry run alembic upgrade head           # Apply migrations
+```
+
+### Development Guidelines
+
+1. **Branch Strategy**
+```bash
+main       # Production-ready code
+develop    # Integration branch
+feature/*  # New features
+```
+
+2. **Commit Convention**
+```bash
+feat: Add new feature
+fix: Bug fix
+docs: Documentation changes
+style: Code style updates
+refactor: Code refactoring
+perf: Performance improvements
+test: Test updates
+```
+
+3. **Code Style**
+- Use TypeScript for all new components
+- Follow TailwindCSS class ordering
+- Implement proper error boundaries
+- Add JSDoc comments for complex logic
+
+## 📚 Documentation
+
+### Key Files
+- `frontend/src/pages/DiscoverPage.tsx` - Main discovery interface
+- `frontend/src/components/features/profile/ProfileCard.tsx` - Profile card component
+- `frontend/src/components/ui/VideoPlayer.tsx` - YouTube video integration
+- `frontend/src/components/ui/AudioPlayer.tsx` - Audio player component
 
 ### Environment Variables
+```bash
+# Frontend (.env.local)
+VITE_API_URL=http://localhost:8000
+VITE_MEDIA_URL=http://localhost:8000/media
 
-#### Backend (.env)
-- `DATABASE_URL` - PostgreSQL connection string
-- `SECRET_KEY` - JWT secret key
-- `CORS_ORIGINS` - Allowed CORS origins
-
-#### Frontend (.env)
-- `VITE_API_URL` - Backend API URL
-- `VITE_WEBSOCKET_URL` - WebSocket URL
-- `VITE_FIREBASE_CONFIG` - Firebase configuration (if used)
-
-## 📚 Additional Resources
-
-- [Product Requirements Document](./prd.txt)
-- [API Documentation](./backend/README.md)
-- [Frontend Documentation](./frontend/README.md)
-- [Infrastructure Guidelines](./.cursor/rules/infrastructure.mdc)
+# Backend (.env)
+DATABASE_URL=postgresql://postgres@localhost/musiccollab
+REDIS_URL=redis://localhost:6379
+```
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'feat: Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 License
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 

@@ -1,12 +1,7 @@
 ---
-description: Infrastructure and deployment guidelines for the music collaboration platform (Core Version)
-globs: ["infrastructure/**/*", "docker/**/*", "scripts/**/*", "terraform/**/*"]
----
----
 description: Local development guidelines for the music collaboration platform (MVP Version)
 globs: ["scripts/**/*"]
 ---
-
 # Local Development Guidelines
 
 ## Development Environment Setup
@@ -17,6 +12,7 @@ globs: ["scripts/**/*"]
     ├── python         # Python 3.9+
     ├── node          # Node.js 16+
     ├── postgresql    # PostgreSQL 13+
+    ├── redis         # Redis 6+ (for real-time features)
     └── poetry        # Python dependency management
   ```
 
@@ -26,7 +22,8 @@ globs: ["scripts/**/*"]
     ```yaml
     environments:
       ├── .env.development  # Local development
-      └── .env.test         # Testing environment
+      ├── .env.test         # Testing environment
+      └── .env.preview      # Preview deployment
     ```
   - Keep secrets in .env files (not committed)
   - Use .env.example as template
@@ -39,49 +36,88 @@ globs: ["scripts/**/*"]
     port: 5432
     name: musiccollab
     user: postgres
+    schemas:
+      ├── core            # Base tables
+      ├── universe        # Artist universe data
+      ├── portfolio       # Work and media
+      └── connections     # Artistic connections
   ```
-  - Basic migrations
-  - Development data seeds
+  - Advanced migrations
+  - Rich seed data
   - Regular backups
 
-## Local Storage
-- File system structure:
+## Media Storage
+- Enhanced structure:
   ```yaml
   storage:
-    ├── uploads/         # User uploads
-    ├── audio/          # Audio files
-    └── previews/       # Generated previews
+    universe/           # Artist universe assets
+      ├── mood_boards/  # Visual style elements
+      ├── audio/        # Sound identity
+      └── influences/   # Artistic connections
+    portfolio/          # Creative work
+      ├── audio/        # Music content
+      ├── video/        # Visual content
+      └── previews/     # Generated previews
+    stories/            # Context content
+      ├── background/   # Creation context
+      ├── journey/      # Evolution content
+      └── media/        # Supporting assets
+    collaborations/     # Joint projects
+      ├── active/       # Ongoing work
+      ├── completed/    # Finished projects
+      └── archived/     # Historical data
   ```
-  - Regular local backups
-  - File size limits
+  - Intelligent caching
+  - Progressive loading
+  - Backup strategy
 
 ## Development Workflow
-- Git workflow:
+- Enhanced Git workflow:
   ```yaml
   branches:
-    ├── main             # Stable version
+    ├── main              # Production ready
+    ├── staging           # Integration testing
     ├── develop          # Development
-    └── feature/*        # Feature branches
+    ├── feature/*       # New features
+    └── universe/*     # Artist universe features
   ```
-- Code review process
-- Testing before merge
+- Comprehensive review process
+- Automated testing
+- Performance monitoring
 
 ## Local Services
 - Frontend (Vite):
   - Port: 5173
   - Hot reload enabled
+  - Universe preview mode
 - Backend (FastAPI):
   - Port: 8000
   - Auto-reload enabled
+  - Media processing
 - Database:
   - Port: 5432
-  - Local instance
+  - Rich query support
+- Redis:
+  - Port: 6379
+  - Real-time features
 
 ## Testing Strategy
-- Unit tests
-- Integration tests
-- Manual testing checklist
-- Test data management
+- Comprehensive testing:
+  ```yaml
+  testing:
+    unit:
+      ├── components     # UI elements
+      ├── services      # Business logic
+      └── utilities    # Helper functions
+    integration:
+      ├── universe     # Artist space
+      ├── portfolio   # Work showcase
+      └── connection  # Artistic matching
+    end_to_end:
+      ├── journeys    # User flows
+      ├── performance # Load testing
+      └── media      # Content handling
+  ```
 
 ## Dependencies
 ```yaml
@@ -89,39 +125,58 @@ globs: ["scripts/**/*"]
 python: ">=3.9"
 node: ">=16.0.0"
 postgresql: ">=13.0"
+redis: ">=6.0"
 
 # Package managers
 pip: "latest"
 npm: "latest"
 poetry: ">=1.4.0"
+
+# Media processing
+ffmpeg: "latest"    # Audio/video processing
+imagemagick: "latest" # Image processing
 ```
 
 ## Local Setup Checklist
-1. Install required tools:
+1. Core installation:
    - Python 3.9+
    - Node.js 16+
    - PostgreSQL 13+
+   - Redis 6+
    - Poetry
 
 2. Backend setup:
-   - Install dependencies with Poetry
-   - Set up local database
-   - Run migrations
-   - Start FastAPI server
+   - Install dependencies
+   - Configure database
+   - Setup media processing
+   - Start services
 
 3. Frontend setup:
-   - Install npm dependencies
+   - Install dependencies
    - Configure environment
-   - Start Vite dev server
+   - Setup universe preview
+   - Start development
 
 4. Development tools:
    - Configure IDE
-   - Set up linters
+   - Setup linters
    - Install Git hooks
+   - Configure testing
 
-## Security Basics
-- Secure authentication
-- Input validation
-- File upload validation
-- Basic rate limiting
-- CORS configuration
+## Security Guidelines
+- Enhanced security:
+  ```yaml
+  security:
+    authentication:
+      ├── jwt            # Token-based auth
+      ├── oauth2        # Platform integration
+      └── session      # Real-time features
+    media:
+      ├── validation   # Content verification
+      ├── scanning    # Security checks
+      └── encryption  # Sensitive data
+    api:
+      ├── rate_limiting  # Request control
+      ├── cors          # Access control
+      └── validation    # Input checking
+  ```

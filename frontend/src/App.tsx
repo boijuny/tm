@@ -78,20 +78,24 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="pb-16"> {/* Add padding to account for fixed navbar */}
-          <Routes>
-            {/* Public routes */}
-            <Route path="/login" element={<Login />} />
-            
-            {/* Protected routes */}
-            <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-            <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
-            <Route path="/discover" element={<DiscoverPage />} />
-            
-            {/* Fallback route */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
+        <div className="flex min-h-[var(--app-height)] bg-background-950">
           <Navbar />
+          <main className="flex-1 relative min-h-[var(--app-height)] overflow-hidden">
+            <div className="absolute inset-0">
+              <Routes>
+                {/* Public routes */}
+                <Route path="/login" element={<Login />} />
+                
+                {/* Protected routes */}
+                <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+                <Route path="/profile-setup" element={<ProtectedRoute><ProfileSetup /></ProtectedRoute>} />
+                <Route path="/discover" element={<ProtectedRoute><DiscoverPage /></ProtectedRoute>} />
+                
+                {/* Fallback route */}
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </div>
+          </main>
         </div>
       </Router>
     </AuthProvider>

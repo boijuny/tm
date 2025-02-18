@@ -1,170 +1,154 @@
 ---
-description: 
-globs: 
----
- ---
 description: Discovery feature guidelines for the music collaboration platform
 globs: ["frontend/src/components/features/discovery/**/*"]
 ---
-
 # Discovery Feature Guidelines
 
-## User Experience Goals
-- **Seamless Desktop Experience**:
+## Creative Universe Experience
+- **Immersive Presentation**:
   ```yaml
-  interaction:
-    keyboard_shortcuts:
-      next_profile: "J"
-      previous_profile: "K"
-      like: "L"
-      pass: "P"
-      super_like: "S"
-      toggle_audio: "Space"
-      toggle_details: "D"
-    gestures:
-      swipe_threshold: "100px"
-      velocity_threshold: "0.5"
-      direction_lock: true
+  universe:
+    components:
+      ├── mood_board         # Visual style representation
+      ├── sound_identity    # Audio visualization
+      ├── influence_map    # Artistic connections
+      └── work_showcase   # Portfolio display
+    interaction:
+      ├── context_aware    # Adaptive experience
+      ├── story_driven    # Work background
+      └── journey_based  # Artistic evolution
   ```
 
-## Audio Experience
-- **Playback Controls**:
+## Artistic Identity System
+- **Universe Components**:
   ```yaml
-  audio:
-    formats: ["mp3", "wav"]
-    max_size: "10MB"
-    features:
-      ├── waveform          # Visual representation
-      ├── normalization    # Consistent volume
-      ├── continuous      # Keep playing while browsing
-      └── playlist        # Queue management
+  identity:
+    core_elements:
+      ├── style_signature    # Visual branding
+      ├── role_expression   # Creative identity
+      ├── work_context     # Creation stories
+      └── influence_web   # Artistic inspiration
+    presentation:
+      ├── dynamic_visuals   # Style-based UI
+      ├── audio_identity   # Sound representation
+      └── journey_timeline # Evolution display
   ```
 
-## Visual Design
-- **Card Layout**:
+## Work Showcase
+- **Portfolio Experience**:
   ```yaml
-  card:
-    aspect_ratio: "4:3"
-    max_width: "800px"
-    sections:
-      ├── header           # Profile info & actions
-      ├── media           # Audio/Image gallery
-      ├── details        # Bio & genres
-      └── footer         # Quick actions
+  showcase:
+    media:
+      ├── context_preview    # Story-driven display
+      ├── platform_integration # Connected accounts
+      ├── collaboration_history # Past projects
+      └── achievement_timeline # Milestones
+    interaction:
+      ├── immersive_preview  # Deep exploration
+      ├── story_navigation  # Context-based
+      └── journey_mapping  # Evolution view
   ```
 
-## Animation System
-- **Smooth Transitions**:
+## Connection System
+- **Artistic Resonance**:
   ```yaml
-  animations:
-    spring:
-      mass: 1
-      tension: 170
-      friction: 26
+  resonance:
+    dimensions:
+      ├── style_compatibility  # Artistic alignment
+      ├── project_potential   # Collaboration fit
+      ├── skill_synergy      # Technical match
+      └── creative_vision    # Direction alignment
+    matching:
+      ├── multi_dimensional  # Beyond binary
+      ├── project_based     # Goal-oriented
+      └── evolution_aware  # Growth-focused
+  ```
+
+## Visual Experience
+- **Universe Visualization**:
+  ```yaml
+  visualization:
+    elements:
+      ├── mood_generation    # Style-based themes
+      ├── dynamic_backgrounds # Responsive design
+      ├── journey_mapping    # Evolution display
+      └── influence_visualization # Inspiration web
     transitions:
-      ├── card_enter      # Fade + slide up
-      ├── card_exit      # Direction-based
-      ├── details       # Expand/collapse
-      └── audio        # Player controls
+      ├── context_aware     # Adaptive animations
+      ├── story_driven     # Narrative flow
+      └── fluid_movement  # Smooth navigation
+  ```
+
+## Media Integration
+- **Rich Content Experience**:
+  ```yaml
+  media:
+    preview:
+      ├── context_aware     # Story-driven playback
+      ├── platform_unified  # Connected content
+      ├── journey_based    # Evolution display
+      └── influence_linked # Inspiration context
+    optimization:
+      ├── adaptive_quality  # Dynamic adjustment
+      ├── context_preload  # Smart caching
+      └── bandwidth_aware # Efficient delivery
   ```
 
 ## Performance Guidelines
-- **Optimization Targets**:
+- **Experience Optimization**:
   ```yaml
   performance:
-    fps_target: 60
-    load_time: "<100ms"
-    memory_limit: "<100MB"
-    optimizations:
-      ├── virtual_list    # For profile stack
-      ├── lazy_load      # For media assets
-      ├── preload       # Next few profiles
-      └── cleanup      # Remove far profiles
+    targets:
+      ├── universe_load    # < 200ms initial
+      ├── content_display  # < 100ms transition
+      ├── media_start     # < 150ms playback
+      └── interaction     # < 50ms response
+    optimization:
+      ├── context_cache   # Smart preloading
+      ├── adaptive_quality # Dynamic content
+      └── progressive_load # Staged display
   ```
 
 ## Accessibility
-- **A11y Requirements**:
+- **Universal Experience**:
   ```yaml
   accessibility:
-    keyboard:
-      ├── focus_trap      # Within active card
-      ├── focus_restore  # After card dismiss
-      └── shortcuts     # All actions
-    aria:
-      ├── labels        # Interactive elements
-      ├── live_regions # Dynamic content
-      └── roles       # Semantic structure
+    navigation:
+      ├── context_aware    # Adaptive interaction
+      ├── story_driven    # Narrative focus
+      └── journey_based  # Evolution aware
+    assistance:
+      ├── screen_readers  # Rich descriptions
+      ├── keyboard_flow  # Intuitive navigation
+      └── color_themes  # Adaptive display
   ```
 
-## Media Handling
-- **Asset Management**:
+## Error Recovery
+- **Experience Continuity**:
   ```yaml
-  media:
-    images:
-      ├── formats        # WebP, JPEG
-      ├── sizes         # Responsive
-      └── loading      # Progressive
-    audio:
-      ├── streaming    # Chunked loading
-      ├── caching     # Local storage
-      └── fallback   # Format support
+  recovery:
+    strategies:
+      ├── context_preserve  # State management
+      ├── content_fallback # Alternative display
+      ├── journey_resume   # Progress retention
+      └── connection_retry # Smart reconnect
+    feedback:
+      ├── user_guidance   # Clear messaging
+      ├── alternative_paths # Navigation options
+      └── progress_save    # State preservation
   ```
 
-## Error Handling
-- **Recovery Strategies**:
+## Analytics Integration
+- **Experience Insights**:
   ```yaml
-  errors:
-    media:
-      ├── retry          # Failed loads
-      ├── fallback      # Alternative source
-      └── placeholder  # Missing content
-    interaction:
-      ├── undo         # Accidental swipe
-      ├── refresh     # Stack exhausted
-      └── offline    # No connection
-  ```
-
-## Testing Requirements
-- **Quality Assurance**:
-  ```yaml
-  testing:
-    performance:
-      ├── fps_monitoring
-      ├── memory_leaks
-      └── load_times
-    interaction:
-      ├── keyboard_flow
-      ├── gesture_accuracy
-      └── error_recovery
-    accessibility:
-      ├── screen_readers
-      ├── keyboard_only
-      └── color_contrast
-  ```
-
-## Development Workflow
-- **Implementation Process**:
-  ```yaml
-  workflow:
-    steps:
-      ├── prototype      # Animation testing
-      ├── implement     # Core features
-      ├── optimize     # Performance
-      ├── test        # All scenarios
-      └── polish     # Final touches
-  ```
-
-## Success Metrics
-- **Key Indicators**:
-  ```yaml
-  metrics:
-    engagement:
-      ├── time_in_app
-      ├── profiles_viewed
-      ├── likes_ratio
-      └── matches_made
-    performance:
-      ├── fps_sustained
-      ├── load_success
-      └── error_rate
+  analytics:
+    tracking:
+      ├── journey_mapping   # User progression
+      ├── resonance_metrics # Connection quality
+      ├── content_engagement # Media interaction
+      └── universe_exploration # Navigation patterns
+    optimization:
+      ├── experience_tuning # Performance adjust
+      ├── content_adaptation # Dynamic content
+      └── journey_enhancement # Flow improvement
   ```

@@ -1,118 +1,101 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useAuth } from '../../contexts/AuthContext';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 interface AppLayoutProps {
   children: React.ReactNode;
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
-  const { user, logout } = useAuth();
   const location = useLocation();
 
-  const isDiscoveryPage = location.pathname === '/discovery';
+  // Update mobile viewport height
+  useEffect(() => {
+    const updateHeight = () => {
+      document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+    };
+    window.addEventListener('resize', updateHeight);
+    updateHeight();
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
-      {/* Animated background elements */}
+    <div className="relative min-h-[var(--app-height)] bg-background-950 overflow-hidden">
+      {/* Animated background gradients */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        {/* Primary gradient blob */}
         <motion.div
-          className="absolute w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20"
+          className="absolute w-[800px] h-[800px] rounded-full mix-blend-normal filter blur-3xl opacity-10
+                     bg-gradient-to-r from-primary-500/30 via-secondary-500/30 to-purple-500/30"
           animate={{
             x: [0, 100, 0],
             y: [0, 50, 0],
+            scale: [1, 1.1, 1],
           }}
           transition={{
-            duration: 20,
+            duration: 30,
             repeat: Infinity,
             ease: "linear"
+          }}
+          style={{
+            left: '25%',
+            top: '25%',
+            translateX: '-50%',
+            translateY: '-50%',
           }}
         />
+
+        {/* Secondary gradient blob */}
         <motion.div
-          className="absolute right-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20"
+          className="absolute right-0 top-1/4 w-[600px] h-[600px] rounded-full mix-blend-normal filter blur-3xl opacity-10
+                     bg-gradient-to-r from-secondary-500/30 via-purple-500/30 to-primary-500/30"
           animate={{
-            x: [0, -100, 0],
+            x: [0, -50, 0],
             y: [0, 100, 0],
+            scale: [1, 1.2, 1],
           }}
           transition={{
-            duration: 15,
+            duration: 25,
             repeat: Infinity,
             ease: "linear"
+          }}
+          style={{
+            right: '25%',
+          }}
+        />
+
+        {/* Noise texture overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-soft-light"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: 'repeat',
+            backgroundSize: '256px 256px',
           }}
         />
       </div>
 
-      {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isDiscoveryPage ? 'bg-transparent' : 'bg-black/10 backdrop-blur-md'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <motion.div
-              className="flex items-center"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-            >
-              <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
-                MusicMatch
-              </Link>
-            </motion.div>
-
-            <div className="flex items-center space-x-4">
-              {user ? (
-                <>
-                  <Link
-                    to="/discovery"
-                    className={`text-white/80 hover:text-white transition-colors ${
-                      location.pathname === '/discovery' ? 'text-white' : ''
-                    }`}
-                  >
-                    Discover
-                  </Link>
-                  <Link
-                    to="/matches"
-                    className={`text-white/80 hover:text-white transition-colors ${
-                      location.pathname === '/matches' ? 'text-white' : ''
-                    }`}
-                  >
-                    Matches
-                  </Link>
-                  <motion.div
-                    className="relative group"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    <button
-                      onClick={logout}
-                      className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-                    >
-                      Logout
-                    </button>
-                  </motion.div>
-                </>
-              ) : (
-                <Link
-                  to="/login"
-                  className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-                >
-                  Login
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main content */}
-      <main className={`relative ${isDiscoveryPage ? 'pt-0' : 'pt-20'}`}>
-        <motion.div
+      {/* Main content with page transitions */}
+      <AnimatePresence mode="wait">
+        <motion.main
+          key={location.pathname}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ 
+            duration: 0.3,
+            ease: [0.22, 1, 0.36, 1]
+          }}
+          className="relative z-10"
         >
           {children}
-        </motion.div>
-      </main>
+        </motion.main>
+      </AnimatePresence>
+
+      {/* Subtle vignette overlay */}
+      <div className="fixed inset-0 pointer-events-none z-20 bg-gradient-radial from-transparent via-transparent to-background-950/40" />
     </div>
   );
-}; 
+};
+
+export default AppLayout; 
